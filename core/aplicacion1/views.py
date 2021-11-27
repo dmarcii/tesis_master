@@ -109,6 +109,8 @@ def eliminarCar(request, id):
 @login_required(login_url='/login')
 def buy(request, id):
 
+    #falta eliminar la orden
+
     if request.method == 'POST':
 
         if id == '-1':
@@ -136,6 +138,8 @@ def buy(request, id):
                                        sub_total=context['total'],
                                        iva=context['iva'],
                                        total=context['totaliva'])
+
+            ordenes.objects.filter(comprador=request.user).delete()
 
             return redirect('/main/factura/'+hsh)
 
