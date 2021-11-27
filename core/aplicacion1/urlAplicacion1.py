@@ -8,7 +8,8 @@ urlpatterns = [
     path('car/', carrito.as_view(), name='carrito'),
     path('car/cardelete/<int:id>', eliminarCar, name='eliminar'),
     path('car/buy/<str:id>', buy, name='comprar'),
-    path('factura/<str:id>', show_invoice, name='comprar'),
-    path('pruebaaas/', pruebas, name='vender'),
+    path('factura/<str:id>', show_invoice, name='factura'),
+    path('facturas/', list_all_invoices, name='facturas'),
+    path('pruebaaas/', pruebas, name='prueba'),
 
 ]

@@ -175,23 +175,19 @@ def _get_hashed_password(password):
     return pbkdf2_sha256.encrypt(password, rounds=10, salt_size=10)
 
 @login_required(login_url='/login')
+def list_all_invoices(request):
+
+    #el flat hace que cada dato de la lista no sea una tupla
+    lista_facturas = ventas.objects.filter(comprador=request.user).values_list('code_hash', flat=True).distinct()
+    lista_facturas = list(dict.fromkeys(lista_facturas))
+
+    context = {}
+
+    context['hash'] = lista_facturas
+
+    return render(request, 'list_invoices.html', context)
+
+@login_required(login_url='/login')
 def pruebas(request):
 
-    obj = ordenes.objects.filter(comprador=request.user)
-
-    #la contraseña especial + la fecha
-    #nombre_qr = str(obj[0].comprador) + str(obj[0].fecha)
-
-    #hsh = _get_hashed_password(nombre_qr)
-    #hsh = hsh.replace('/', "slash")
-
-    print(codigo_seguridad_qe)
-
-
-
-    #obj_qr = QR_CODE()
-    #obj_qr.crear_nuevo_qr(str(hsh), ("http://127.0.0.1:8000/main/factura/"+str(hsh)), str(request.user))
-
-
-    #ordenes.objects.filter(comprador=request.user, id=id).delete()
     return redirect('/main')

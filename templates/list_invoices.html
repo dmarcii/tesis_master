@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table class="table table-striped table-botdered bg-white table-sm">
+
+    {% for hsh in hash %}
+        <tr>
+            <td><h5><a href="/main/factura/{{hsh}}" class="btn btn-danger">{{hsh}}</a></h5></td>
+        </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
