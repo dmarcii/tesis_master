@@ -1,0 +1,276 @@
+{% extends 'layout.html' %} {%block body%} {% with messages =
+
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+  <strong>{{error}}</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Tiendas MM</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    </div>
+    </div>
+  </nav>
+</header>
+  
+
+<!--   <div class="container">
+    <div class="card w-75 border-primary mb-2 shadow p-3 mb-5 bg-white rounded">
+    <form class = 'row g-2' action="/signup" method="POST">
+    
+        <div class="row">
+          <div class="form-group col-md-3 mx-auto">
+            <label for="inputEmail4">Nombre de usuario</label>
+            <input type="text" class="form-control" name="username">
+          </div>
+          <div class="form-group col-md-3 mx-auto">
+            <label for="inputPassword4">Contraseña</label>
+            <input type="password" class="form-control" name="password">
+          </div>
+        </div>
+        
+  
+  
+        <div class="row">
+          <div class="form-group col-md-3 mx-auto">
+            <label for="inputEmail4">Primer Nombre</label>
+            <input type="text" class="form-control" name="firstname" placeholder= 'john'>
+          </div>
+          <div class="form-group col-md-3 mx-auto">
+            <label for="inputPassword4">Segundo Nombre</label>
+            <input type="text" class="form-control" name="lastname" placeholder= 'Smith'>
+          </div>
+        </div>
+  
+          <div class="row">
+            <div class="form-group col-md-3 mx-auto">
+              <label for="inputAddress">Correo Electronico</label>
+              <input type="email" class="form-control" name="email" placeholder="ejemplo@gmail.com">
+            </div>
+      
+            <div class="form-group col-md-3 mx-auto">
+              <label for="inputAddress">Numero de telefono</label>
+              <input type="number" class="form-control" name="phone" placeholder="04123456789" min="1" maxlength="999999999">
+            </div>
+          </div>
+  
+        <div class="row">
+          <div class="form-group col-md-3 mx-auto">
+            <label for="inputAddress2">Direccion</label>
+            <input type="text" class="form-control" name="address" placeholder= "urb loremipsun calle 145 ">
+          </div>
+          
+          <div class="form-group col-md-3 mx-auto">
+            <label for="inputZip">Zip</label>
+            <input type="number" class="form-control" name="zip" min="1">
+          </div>
+        </div>
+
+  
+        <div class="row">
+          <div class="form-group col-md-3 mx-auto">
+            <label for="inputCity">Estado</label>
+            <select class="form-control" id="country" name="country">
+              <option value="Afganistan">Afghanistan</option>
+              <option value="Albania">Albania</option>
+              <option value="Algeria">Algeria</option>
+           </select>
+          </div>
+          <div class="form-group col-md-3 mx-auto">
+            <label for="inputState">Fecha de nacimiento</label>
+            <input type="date" name="dateofbirth"
+              value="2002-07-22"
+              min="1920-01-01" max="2002-05-31" class="form-control">
+          </div>
+          </div>
+       
+          <div class="row col-md-2 mx-auto">
+            <div class="btncontainer">
+              <button type="submit" class="btn btn-primary">Registrarse</button>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div> -->
+
+<div class="container-fluid px-1 py-5 mx-auto">
+  <div class="row d-flex justify-content-center">
+    <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+    
+      <div class="card">
+        <h5 class="text-center mb-4">Regístrate</h5>
+
+        <form method="post" class="form-card">
+          {% csrf_token %}
+
+          {{ form.as_p }}
+
+          <button type="submit" id="submit" class="btn-block ">Registrarse</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  header {
+   background-color: #00bcd4;
+   padding: 20px 10%;
+}
+  body {
+    color: #000;
+    overflow-x: hidden;
+    height: 100%;
+    background-color: #00bcd4;
+    background-size: 100% 100%;
+  }
+
+  .btn-block {
+
+    background-color: #00bcd4;
+    color: #fff;
+  }
+
+  .card {
+    margin-top: -40px;
+    padding: 30px 40px;
+    border-radius: 1%;
+    border: none !important;
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .blue-text {
+    color: #00bcd4;
+  }
+
+  .form-control-label {
+    margin-bottom: 0;
+  }
+
+  input,
+  textarea,
+  button,
+  select {
+    padding: 8px 15px;
+    border-radius: 5px !important;
+    margin: 5px 0px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    font-size: 18px !important;
+    font-weight: 300;
+  }
+
+  input:focus,
+  textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #00bcd4;
+    outline-width: 0;
+    font-weight: 400;
+  }
+
+  .btn-block {
+    text-transform: uppercase;
+    font-size: 15px !important;
+    font-weight: 400;
+    height: 43px;
+    cursor: pointer;
+  }
+
+  .btn-block:hover {
+    color: #fff !important;
+  }
+
+  button:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline-width: 0;
+  }
+</style>
+
+<script>
+  function validate(val) {
+    v1 = document.getElementById("fname");
+    v2 = document.getElementById("lname");
+    v3 = document.getElementById("email");
+    v4 = document.getElementById("mob");
+    v5 = document.getElementById("job");
+    v6 = document.getElementById("ans");
+
+    flag1 = true;
+    flag2 = true;
+    flag3 = true;
+    flag4 = true;
+    flag5 = true;
+    flag6 = true;
+
+    if (val >= 1 || val == 0) {
+      if (v1.value == "") {
+        v1.style.borderColor = "red";
+        flag1 = false;
+      } else {
+        v1.style.borderColor = "green";
+        flag1 = true;
+      }
+    }
+
+    if (val >= 2 || val == 0) {
+      if (v2.value == "") {
+        v2.style.borderColor = "red";
+        flag2 = false;
+      } else {
+        v2.style.borderColor = "green";
+        flag2 = true;
+      }
+    }
+    if (val >= 3 || val == 0) {
+      if (v3.value == "") {
+        v3.style.borderColor = "red";
+        flag3 = false;
+      } else {
+        v3.style.borderColor = "green";
+        flag3 = true;
+      }
+    }
+    if (val >= 4 || val == 0) {
+      if (v4.value == "") {
+        v4.style.borderColor = "red";
+        flag4 = false;
+      } else {
+        v4.style.borderColor = "green";
+        flag4 = true;
+      }
+    }
+    if (val >= 5 || val == 0) {
+      if (v5.value == "") {
+        v5.style.borderColor = "red";
+        flag5 = false;
+      } else {
+        v5.style.borderColor = "green";
+        flag5 = true;
+      }
+    }
+    if (val >= 6 || val == 0) {
+      if (v6.value == "") {
+        v6.style.borderColor = "red";
+        flag6 = false;
+      } else {
+        v6.style.borderColor = "green";
+        flag6 = true;
+      }
+    }
+
+    flag = flag1 && flag2 && flag3 && flag4 && flag5 && flag6;
+
+    return flag;
+  }
+</script>
+
+{%endblock%}

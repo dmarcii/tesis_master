@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {% if form.errors %}
+
+        <p style="color: red;">malo</p>
+
+    {% endif %}
+
+    <form action="/main/sell/" method="POST" enctype="multipart/form-data"> <!--#enctype="multipart/form-data" para que pueda subir la imagen -->
+
+        {% csrf_token %}
+
+        <table>
+
+            {{ form.as_table }}
+
+        </table>
+
+        <input type="submit" value="enviar">
+
+    </form>
+
+</body>
+
+</html>
