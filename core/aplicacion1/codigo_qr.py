@@ -33,10 +33,3 @@ class QR_CODE:
         val, pts, st_code = det.detectAndDecode(img)
 
         return val
-
-
-#a = QR_CODE()
-
-#imagen = a.crear_nuevo_qr('hola', "http://127.0.0.1:8000/main/factura", 'angel')
-
-#print(a.leer_codigo('hola.png'))
