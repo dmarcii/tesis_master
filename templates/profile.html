@@ -2,6 +2,16 @@
 {%block body%}
 {% load static %}
 
+<style>
+
+  .section{
+  padding: 0 50px 0 50px;
+  }
+  nav {
+  padding: 0 50px 0 50px
+  }
+
+</style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#"> {{user}}</a>
@@ -124,6 +134,8 @@
   <p></p>
   <p></p>
 
+<div class = "section">
+
 <!--Tareta de los instrumentos-->
 <div class="row row-cols-1 row-cols-md-4">
   {% for obj in object_list %}
@@ -152,7 +164,7 @@
   {% endfor %}
 </div>
 
-
+</div>
 
 <!-- Footer -->
 <footer class="page-footer font-small mdb-color lighten-3 pt-4">
