@@ -176,16 +176,20 @@ def _get_hashed_password(password):
 
 @login_required(login_url='/login')
 def list_all_invoices(request):
-
-    #el flat hace que cada dato de la lista no sea una tupla
+    # el flat hace que cada dato de la lista no sea una tupla
     lista_facturas = ventas.objects.filter(comprador=request.user).values_list('code_hash', flat=True).distinct()
     lista_facturas = list(dict.fromkeys(lista_facturas))
 
+    lista = []
+
+    for i in lista_facturas:
+        lista.append(ventas.objects.filter(comprador=request.user, code_hash=i).first())
+
     context = {}
 
-    context['hash'] = lista_facturas
+    context['obj'] = lista
 
-    return render(request, 'list_invoices.html', context)
+    return render(request, 'facturas_todas.html', context)
 
 @login_required(login_url='/login')
 def pruebas(request):
