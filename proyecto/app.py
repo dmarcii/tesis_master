@@ -8,10 +8,32 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from datetime import datetime
 from django.contrib.auth.models import User
+import os
 
 def inicio(request):
 
-    return render(request, 'index2.html')
+    context = {}
+    context['user'] = request.user
+    context['stock'] = productos.objects.all()
+    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
+
+    #tienda_store
+
+    return render(request, 'tienda_main.html', context)
+
+def pruebas_producto(request, id):
+
+    producto = productos.objects.filter(id=id)[0]
+
+    context = {} #en 244
+    context['user'] = request.user
+    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
+    context['seller'] = producto.vendedor
+    context['pr'] = producto
+    context['name'] = str(producto.nombre)
+    context['fotos'] = os.listdir('C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles/' + str(context['seller']) + '/' + str(producto.nombre))
+
+    return render(request, 'tienda_product.html', context)
 
 def register(request):
 
@@ -29,7 +51,7 @@ def register(request):
                                         pais=request.POST.get('region'),
                                         usuario=User.objects.get(username=request.POST.get('username')))
 
-            return redirect('/main')
+            return redirect('/')
     else:
         form = UserRegisterFrom()
 
@@ -67,9 +89,13 @@ class main(LoginRequiredMixin, ListView):
 def addcar(request, id):
     username = request.user
     cantidad = request.POST.get('quantity', False)
-    texthash = datetime.today().strftime('%Y-%m-%d-%H:%M:%S') + str(cantidad) + str(username)
+
+    if cantidad:
+        pass
+    else:
+        cantidad = 1
 
     ordenes.objects.create(comprador=username,
                            cantidad=cantidad,
                            producto_id=id)
-    return redirect('/main/car')
+    return redirect('/car')

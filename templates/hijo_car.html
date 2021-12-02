@@ -1,0 +1,44 @@
+{% extends 'tienda_blank.html' %}
+{% load static %}
+{% block content %}
+    <form action="buy/-1" method="POST">
+        {% csrf_token %}
+
+        <div class="col-md7">
+          <table class="table table-striped table-botdered bg-white table-sm">
+            <thead>
+              <tr>
+                <td><h4>Foto</h4></td>
+                <td><h4>Nombre</h4></td>
+                <td><h4>Seccion</h4></td>
+                <td><h4>Precio</h4></td>
+                <td><h4>Cantidad</h4></td>
+                <td><h4>Operaciones</h4></td>
+                <td><h4>Cancelar</h4></td>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for ca in car %}
+
+              <tr>
+                <td>  <img src="{% static "" %}imagenes/perfiles/{{ca.0.vendedor}}/{{ ca.0.nombre  }}/{{ ca.0.imagen  }}"  width="50" height="50"> </td>
+                <td><h5 class="card-title">{{ca.0.nombre}}</h5></td>
+                <td><h5>{{ca.0.seccion}}</h5></td>
+                <td id="precio"><h5>{{ca.0.precio}}$</h5></td>
+                <td><h5>{{ca.1.cantidad}}</h5></td>
+                <td><h5><a href="/car/cardelete/{{ca.1.id}}" class="btn btn-danger">Eliminar</a></h5></td>
+                <td><h5><a href="buy/{{ca.1.id}}" class="btn btn-danger">Pagar</a></h5></td>
+              </tr>
+              {% endfor %}
+              <td><h4>Monto: </h4></td>
+              <td><h4>{{total}}$ </h4></td>
+              <td><h4>IVA: {{iva}}$ </h4></td>
+              <td><h4>total:</h4></td>
+              <td><h4>{{totaliva}}$</h4></td>
+              <td> <button type="submit" class="btn btn-primary btn-lg">Efectuar cancelacion completa</button><td>
+            </tbody>
+          </table>
+        </div>
+    </form>
+{% endblock %}

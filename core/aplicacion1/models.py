@@ -9,7 +9,7 @@ class productos(models.Model):
     precio = models.FloatField()
     imagen = models.CharField(max_length=100)
     stock = models.IntegerField()
-    vendedor = models.OneToOneField(User, on_delete=models.CASCADE,  default=0)
+    vendedor = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
     class Meta:

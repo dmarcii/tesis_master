@@ -22,14 +22,13 @@
     <tbody>
       {% for ca in car %}
 
-
       <tr>
-        <td>  <img src="{% static "" %}imagenes/perfiles/{{ca.0.vendedor}}/{{ ca.0.imagen  }}"  width="50" height="50"> </td>
+        <td>  <img src="{% static "" %}imagenes/perfiles/{{ca.0.vendedor}}/{{ ca.0.nombre  }}/{{ ca.0.imagen  }}"  width="50" height="50"> </td>
         <td><h5 class="card-title">{{ca.0.nombre}}</h5></td>
         <td><h5>{{ca.0.seccion}}</h5></td>
         <td id="precio"><h5>{{ca.0.precio}}$</h5></td>
         <td><h5>{{ca.1.cantidad}}</h5></td>
-        <td><h5><a href="cardelete/{{ca.1.id}}" class="btn btn-danger">Eliminar</a></h5></td>
+        <td><h5><a href="main/car/cardelete/{{ca.1.id}}" class="btn btn-danger">Eliminar</a></h5></td>
         <td><h5><a href="buy/{{ca.1.id}}" class="btn btn-danger">Pagar</a></h5></td>
       </tr>    
       {% endfor %}

@@ -24,39 +24,44 @@ def form_sell(request):
 
         if miformulario.is_valid():
 
-            info = miformulario.cleaned_data
+            lista = ['imagen1', 'imagen2', 'imagen3', 'imagen4']
 
-            username = request.user
-            img = request.FILES['imagen']
-            img_name = img.name
+            pr = []
 
-            upimage(img, str(username), img_name)
+            try:
+                for i in lista:
+                    img = request.FILES[i]
+                    img_name = img.name
+                    pr.append([img, img_name])
+            except:
+                pass
 
-            productos.objects.create(nombre=info['nombre'],
-                                     seccion=info['seccion'],
-                                     precio=info['precio'],
-                                     imagen=img_name,
-                                     stock=info['stock'],
-                                     vendedor=User.objects.get(username=username))
+            upimage(pr, str(request.user), request.POST.get('nombre'))
 
-            return redirect('/main')
+            productos.objects.create(nombre=request.POST.get('nombre'),
+                                     seccion=request.POST.get('seccion'),
+                                     precio=request.POST.get('precio'),
+                                     imagen=pr[0][1],
+                                     stock=request.POST.get('stock'),
+                                     vendedor=User.objects.get(username=request.user))
+
+            return redirect('/')
 
     else:
-
         miformulario = formventa()
-
     return render(request, 'new.html', {'form':miformulario})
 
-def upimage(file_image, user, image_name):
+def upimage(pr, user, nombre_producto):
 
     ruta = 'C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles'
-    rutaUser = ruta + '/' + user + '/'
+    rutaUser = ruta + '/' + user + '/' + nombre_producto + '/'
 
     if not os.path.exists(rutaUser):
         os.makedirs(rutaUser)
 
     fs = FileSystemStorage()
-    fs.save(rutaUser + image_name, file_image)
+    for i in pr:
+        fs.save(rutaUser + i[1], i[0])
 
 
 def obtener_datos_carro(usuario):
@@ -84,32 +89,33 @@ def obtener_datos_carro(usuario):
 
     return context
 
-
 class carrito(LoginRequiredMixin, ListView):
     login_url = '/login/'
     model = ordenes
-    template_name = 'car.html'
+    template_name = 'hijo_car.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
+
+        username = self.request.user
+
         #a = ordenes.objects.filter(comprador=self.request.user) #.values('producto')
         #b = productos.objects.filter(pk__in=a)
 
-        context = obtener_datos_carro(self.request.user)
+        context = obtener_datos_carro(username)
+        context['c_car'] = len(ordenes.objects.filter(comprador=username))
 
         return context
 
 @login_required(login_url='/login')
 def eliminarCar(request, id):
     ordenes.objects.filter(comprador=request.user, id=id).delete()
-    return redirect('/main/car')
+    return redirect('/car')
 
 
 @login_required(login_url='/login')
 def buy(request, id):
 
-    #falta eliminar la orden
 
     if request.method == 'POST':
 
@@ -141,9 +147,9 @@ def buy(request, id):
 
             ordenes.objects.filter(comprador=request.user).delete()
 
-            return redirect('/main/factura/'+hsh)
+            return redirect('/factura/'+hsh)
 
-    return redirect('/main/car')
+    return redirect('/car')
 
 
 @login_required(login_url='/login')
@@ -187,14 +193,16 @@ def list_all_invoices(request):
         lista.append(ventas.objects.filter(comprador=request.user, code_hash=i).first())
 
     context = {}
+    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
 
     context['obj'] = lista
 
-    return render(request, 'facturas_todas.html', context)
+    return render(request, 'list_invoces.html', context)
 
-@login_required(login_url='/login')
+#@login_required(login_url='/login')
 def pruebas(request):
 
-    print(perfil_datos.objects.all()[0].usuario_id)
+    context = obtener_datos_carro(request.user)
+    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
 
-    return redirect('/main')
+    return render(request, 'tienda_blank.html', context)

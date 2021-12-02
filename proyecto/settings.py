@@ -137,7 +137,7 @@ MEDIA_URL = '/imagenes/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/imagenes')
 
 
-LOGIN_REDIRECT_URL = '/main'
+LOGIN_REDIRECT_URL = '/'
 #LOGOUT_REDIRECT_URL = '/'
 
 # Default primary key field type

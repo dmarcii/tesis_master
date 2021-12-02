@@ -29,8 +29,9 @@ urlpatterns = [
     #path('logout/', LogoutView.as_view(template_name='index2.html'), name='logout'),
     path('logout/', logout_view),
     path('main/', main.as_view()),
+    path('producto/<int:id>', pruebas_producto),
     path('addtocar/<int:id>', addcar),
-    path('main/', include('core.aplicacion1.urlAplicacion1')),
+    path('', include('core.aplicacion1.urlAplicacion1')),
 ]
 
 if settings.DEBUG:
