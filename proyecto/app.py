@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from datetime import datetime
+from django.contrib.auth.models import User
 
 def inicio(request):
 
@@ -16,8 +17,18 @@ def register(request):
 
     if request.method == 'POST':
         form = UserRegisterFrom(request.POST)
+
         if form.is_valid():
+
             form.save()
+
+            perfil_datos.objects.create(nombre=request.POST.get('nombre'),
+                                        apellido=request.POST.get('apellido'),
+                                        sexo=request.POST.get('sexo'),
+                                        fecha_nacimiento=request.POST.get('edad'),
+                                        pais=request.POST.get('region'),
+                                        usuario=User.objects.get(username=request.POST.get('username')))
+
             return redirect('/main')
     else:
         form = UserRegisterFrom()

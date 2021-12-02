@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class productos(models.Model):
@@ -8,7 +9,8 @@ class productos(models.Model):
     precio = models.FloatField()
     imagen = models.CharField(max_length=100)
     stock = models.IntegerField()
-    vendedor = models.CharField(max_length=20)
+    vendedor = models.OneToOneField(User, on_delete=models.CASCADE,  default=0)
+
 
     class Meta:
         verbose_name='producto'
@@ -16,6 +18,20 @@ class productos(models.Model):
         db_table='productos'   #nombre de la base de datos en mysql
         ordering=['id']
 
+
+class perfil_datos(models.Model):
+    nombre = models.CharField(max_length=20)
+    apellido = models.CharField(max_length=20)
+    sexo = models.CharField(max_length=20)
+    fecha_nacimiento = models.DateField()
+    pais = models.CharField(max_length=20)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE,  default=0)
+
+    class Meta:
+        verbose_name='perfil'
+        verbose_name_plural='perfiles'
+        db_table='perfil'
+        ordering=['id']
 
 
 class ordenes(models.Model):

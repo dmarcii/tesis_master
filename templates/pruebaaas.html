@@ -5,6 +5,25 @@
     <title>Title</title>
 </head>
 <body>
-src="{% static "" %}imagenes/perfiles/{{obj.vendedor}}/{{ ca.0.imagen  }}"
+{% load static %}
+
+<form method="post">
+
+    {% csrf_token %}
+    <link rel="stylesheet" href="{% static 'build/css/countrySelect.css' %}">
+
+    <input name="region" type="text" id="country"/>
+    <input type="hidden" id="country_code" />
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static 'build/js/countrySelect.min.js' %}"></script>
+    <script>
+      $("#country").countrySelect();
+    </script>
+
+    <button type="submit" id="submit" class="btn-block">Registrarse</button>
+
+</form>
+
 </body>
 </html>

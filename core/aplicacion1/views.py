@@ -37,7 +37,7 @@ def form_sell(request):
                                      precio=info['precio'],
                                      imagen=img_name,
                                      stock=info['stock'],
-                                     vendedor=username)
+                                     vendedor=User.objects.get(username=username))
 
             return redirect('/main')
 
@@ -163,6 +163,7 @@ def show_invoice(request, id):
 
     context['car'] = pr
     context['hash'] = a[0].code_hash
+    context['hash_t'] = a[0].code_t
     context['email'] = user_email
     context['total'] = a[0].sub_total
     context['iva'] = a[0].iva
@@ -193,5 +194,7 @@ def list_all_invoices(request):
 
 @login_required(login_url='/login')
 def pruebas(request):
+
+    print(perfil_datos.objects.all()[0].usuario_id)
 
     return redirect('/main')
