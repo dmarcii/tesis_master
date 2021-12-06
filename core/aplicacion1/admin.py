@@ -16,6 +16,11 @@ class ordenes_display(admin.ModelAdmin):
     search_fields = ('comprador', 'cantidad', 'producto', 'fecha')
     list_filter = ('comprador', 'cantidad', 'producto', 'fecha')
 
+class mensajes_display(admin.ModelAdmin):
+    list_display = ('comprador', 'producto', 'msg', 'rate', 'fecha')
+    search_fields = ('comprador', 'producto', 'msg', 'rate', 'fecha')
+    list_filter = ('comprador', 'producto', 'msg', 'rate', 'fecha')
+
 
 class perfiles_display(admin.ModelAdmin):
     list_display = ('nombre', 'apellido', 'sexo', 'fecha_nacimiento', 'pais')
@@ -49,3 +54,4 @@ admin.site.register(productos, productos_display)
 admin.site.register(ordenes, ordenes_display)
 admin.site.register(perfil_datos, perfiles_display)
 admin.site.register(ventas, ventas_display)
+admin.site.register(mensajes, mensajes_display)

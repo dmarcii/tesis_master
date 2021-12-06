@@ -10,6 +10,6 @@ urlpatterns = [
     path('car/buy/<str:id>', buy, name='comprar'),
     path('factura/<str:id>', show_invoice, name='factura'),
     path('facturas/', list_all_invoices.as_view(), name='facturas'),
-    path('pruebaaas/', pruebas, name='prueba'),
+    path('pruebaaas/<str:id>', pruebas, name='prueba'),
 
 ]

@@ -29,7 +29,6 @@ class main(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
 
         context = super(main, self).get_context_data(**kwargs)
-        context['user'] = self.request.user
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
         return context
 
@@ -39,14 +38,22 @@ class pruebas_producto(LoginRequiredMixin, ListView):
     model = productos
     template_name = 'tienda_product.html'
 
+    def get_queryset(self, **kwargs):
+
+        id = self.kwargs['id']
+        producto = productos.objects.filter(id=id).first()
+
+        return mensajes.objects.filter(producto=producto)
+
     def get_context_data(self, **kwargs):
 
         id = self.kwargs['id']
         producto = productos.objects.filter(id=id).first()
         context = super(pruebas_producto, self).get_context_data(**kwargs)
-        context['user'] = self.request.user
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
         context['seller'] = producto.vendedor
+        context['c_reviews'] = len(mensajes.objects.filter(producto=producto))
+        context['id_producto'] = producto.id
         context['pr'] = producto
         context['name'] = str(producto.nombre)
         context['fotos'] = os.listdir(

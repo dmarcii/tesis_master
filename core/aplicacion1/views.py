@@ -202,12 +202,17 @@ class list_all_invoices(LoginRequiredMixin, ListView):
 
         return context
 
-
-
 #@login_required(login_url='/login')
-def pruebas(request):
+def pruebas(request,id):
 
     context = obtener_datos_carro(request.user)
     context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
+    #request.POST.get('username')
+    #print(request.POST)
 
-    return render(request, 'tienda_blank.html', context)
+    mensajes.objects.create(comprador=request.user,
+                          producto=productos.objects.get(id=id),
+                          msg=request.POST.get('coment'),
+                          rate=request.POST.get('rating'))
+
+    return render(request, 'pruebaaas.html', context)

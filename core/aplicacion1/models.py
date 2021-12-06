@@ -47,6 +47,20 @@ class ordenes(models.Model):
         ordering=['id']
 
 
+class mensajes(models.Model):
+    comprador = models.CharField(max_length=20)
+    producto = models.ForeignKey(productos, on_delete=models.CASCADE)
+    msg = models.CharField(max_length=350)
+    rate = models.CharField(max_length=1)
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name='mensaje'
+        verbose_name_plural='mensajes'
+        db_table='mensaje'
+        ordering=['id']
+
+
 class ventas(models.Model):
     comprador = models.CharField(max_length=20)
     cantidad = models.IntegerField()

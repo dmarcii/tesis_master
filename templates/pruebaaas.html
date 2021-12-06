@@ -7,23 +7,45 @@
 <body>
 {% load static %}
 
-<form method="post">
 
-    {% csrf_token %}
-    <link rel="stylesheet" href="{% static 'build/css/countrySelect.css' %}">
 
-    <input name="region" type="text" id="country"/>
-    <input type="hidden" id="country_code" />
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="{% static 'build/js/countrySelect.min.js' %}"></script>
-    <script>
-      $("#country").countrySelect();
-    </script>
+<script >
+    var i;
+    for(i=0;i<=5;i++)
+    {
+        document.write("Videos publicados por Estrada Web Group: " +i +"<br/>");
+        let btn = document.createElement("button");
+        btn.innerHTML = "Submit";
+        btn.type = "submit";
+        btn.name = "formBtn";
+        btn.href = "https://www.geeksforgeeks.org";
+        document.body.appendChild(btn);
+    }
 
-    <button type="submit" id="submit" class="btn-block">Registrarse</button>
+    for(i=0;i<=10;i++)
+    {
+        var a = document.createElement('a');
 
-</form>
+        // Create the text node for anchor element.
+        var link = document.createTextNode("This is link");
+
+        // Append the text node to anchor element.
+        a.appendChild(link);
+
+        // Set the title.
+        a.title = "This is Link";
+
+        // Set the href property.
+        a.href = "https://www.geeksforgeeks.org";
+
+        // Append the anchor element to the body.
+        document.body.appendChild(a);
+    }
+
+
+
+</script>
 
 </body>
 </html>
