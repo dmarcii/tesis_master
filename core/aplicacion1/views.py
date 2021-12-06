@@ -116,7 +116,6 @@ def eliminarCar(request, id):
 @login_required(login_url='/login')
 def buy(request, id):
 
-
     if request.method == 'POST':
 
         if id == '-1':
@@ -132,8 +131,7 @@ def buy(request, id):
             hsh = hsh.replace('/', "slash")
 
             obj_qr = QR_CODE()
-
-            obj_qr.crear_nuevo_qr(str(hsh), ("http://127.0.0.1:8000/main/factura/"+str(hsh)), str(request.user))
+            obj_qr.crear_nuevo_qr(str(hsh), ("http://127.0.0.1:8000/factura/"+str(hsh)), str(request.user))
 
             for i in context['car']:
                 ventas.objects.create(comprador=request.user,
@@ -181,23 +179,30 @@ def show_invoice(request, id):
 def _get_hashed_password(password):
     return pbkdf2_sha256.encrypt(password, rounds=10, salt_size=10)
 
-@login_required(login_url='/login')
-def list_all_invoices(request):
-    # el flat hace que cada dato de la lista no sea una tupla
-    lista_facturas = ventas.objects.filter(comprador=request.user).values_list('code_hash', flat=True).distinct()
-    lista_facturas = list(dict.fromkeys(lista_facturas))
+class list_all_invoices(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    template_name = 'list_invoces.html'
 
-    lista = []
+    def get_queryset(self, **kwargs):
+        lista_facturas = ventas.objects.filter(comprador=self.request.user).values_list('code_hash', flat=True).distinct()
+        lista_facturas = list(dict.fromkeys(lista_facturas))
 
-    for i in lista_facturas:
-        lista.append(ventas.objects.filter(comprador=request.user, code_hash=i).first())
+        lista = []
 
-    context = {}
-    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
+        for i in lista_facturas:
+            lista.append(ventas.objects.filter(comprador=self.request.user, code_hash=i).first())
 
-    context['obj'] = lista
+        return lista
 
-    return render(request, 'list_invoces.html', context)
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+
+        return context
+
+
 
 #@login_required(login_url='/login')
 def pruebas(request):

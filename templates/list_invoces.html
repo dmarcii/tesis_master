@@ -6,38 +6,38 @@
 
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
-    <div class="limiter">
-        <div class="container-table100">
-            <div class="wrap-table100">
-                <div class="table100">
-                    <table>
-                        <thead>
-                            <tr class="table100-head">
-                                <th class="column1">Fecha</th>
-                                <th class="column3">hash</th>
-                                <th class="column4">monto</th>
-                                <th class="column5">IVA</th>
-                                <th class="column6">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
 
-                                {% for i in obj %}
-                                    <tr onclick="window.location='/factura/{{i.code_hash}}';">
-                                        <td class="column1">{{i.fecha}}</td>
-                                        <td class="column3">{{i.code_t}}</td>
-                                        <td class="column4">{{i.sub_total}}$</td>
-                                        <td class="column5">{{i.iva}}$</td>
-                                        <td class="column6">{{i.total}}$</td>
-                                    </tr>
-                                {% endfor %}
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100">
+                <table>
+                    <thead>
+                        <tr class="table100-head">
+                            <th class="column1">Fecha</th>
+                            <th class="column3">hash</th>
+                            <th class="column4">monto</th>
+                            <th class="column5">IVA</th>
+                            <th class="column6">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                        </tbody>
-                    </table>
-                </div>
+                            {% for i in object_list %}
+                                <tr onclick="window.location='/factura/{{i.code_hash}}';">
+                                    <td class="column1">{{i.fecha}}</td>
+                                    <td class="column3">{{i.code_t}}</td>
+                                    <td class="column4">{{i.sub_total}}$</td>
+                                    <td class="column5">{{i.iva}}$</td>
+                                    <td class="column6">{{i.total}}$</td>
+                                </tr>
+                            {% endfor %}
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
 
     <!--===============================================================================================-->
 	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>

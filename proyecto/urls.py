@@ -23,13 +23,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', inicio),
+    path('', main.as_view()),
     path('signup/', register),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     #path('logout/', LogoutView.as_view(template_name='index2.html'), name='logout'),
     path('logout/', logout_view),
-    path('main/', main.as_view()),
-    path('producto/<int:id>', pruebas_producto),
+    path('producto/<int:id>', pruebas_producto.as_view()),
     path('addtocar/<int:id>', addcar),
     path('', include('core.aplicacion1.urlAplicacion1')),
 ]

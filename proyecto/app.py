@@ -10,30 +10,50 @@ from datetime import datetime
 from django.contrib.auth.models import User
 import os
 
-def inicio(request):
+class main(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    model = productos
+    template_name = 'tienda_main.html'
 
-    context = {}
-    context['user'] = request.user
-    context['stock'] = productos.objects.all()
-    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
 
-    #tienda_store
+    def get_queryset(self, **kwargs):
 
-    return render(request, 'tienda_main.html', context)
+        if self.request.POST:
+            date_insert = self.request.POST.get('search')
+            return productos.objects.filter(nombre__icontains=date_insert)
+        else:
+            return productos.objects.all()
 
-def pruebas_producto(request, id):
+    def get_context_data(self, **kwargs):
 
-    producto = productos.objects.filter(id=id)[0]
+        context = super(main, self).get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+        return context
 
-    context = {} #en 244
-    context['user'] = request.user
-    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
-    context['seller'] = producto.vendedor
-    context['pr'] = producto
-    context['name'] = str(producto.nombre)
-    context['fotos'] = os.listdir('C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles/' + str(context['seller']) + '/' + str(producto.nombre))
 
-    return render(request, 'tienda_product.html', context)
+class pruebas_producto(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    model = productos
+    template_name = 'tienda_product.html'
+
+    def get_context_data(self, **kwargs):
+
+        id = self.kwargs['id']
+        producto = productos.objects.filter(id=id).first()
+        context = super(pruebas_producto, self).get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+        context['seller'] = producto.vendedor
+        context['pr'] = producto
+        context['name'] = str(producto.nombre)
+        context['fotos'] = os.listdir(
+            'C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles/' + str(
+                context['seller']) + '/' + str(producto.nombre))
+
+        return context
 
 def register(request):
 
@@ -51,7 +71,7 @@ def register(request):
                                         pais=request.POST.get('region'),
                                         usuario=User.objects.get(username=request.POST.get('username')))
 
-            return redirect('/')
+            return redirect('/login')
     else:
         form = UserRegisterFrom()
 
@@ -62,28 +82,6 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
-
-class main(LoginRequiredMixin, ListView):
-    login_url = '/login/'
-    model = productos
-    template_name = 'profile.html'
-
-    def post(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
-
-    def get_queryset(self, **kwargs):
-
-        if self.request.POST:
-            date_insert = self.request.POST.get('search')
-            return productos.objects.filter(nombre__icontains=date_insert)
-        else:
-            return productos.objects.all()
-
-    def get_context_data(self, **kwargs):
-
-        context = super(main, self).get_context_data(**kwargs)
-        context['user'] = self.request.user
-        return context
 
 @login_required(login_url='/login')
 def addcar(request, id):

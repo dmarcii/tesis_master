@@ -82,14 +82,15 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form>
+								<form action="/" method="POST">
+									{% csrf_token %}
 									<!--<select class="input-select">
 										<option value="0">All Categories</option>
 										<option value="1">Category 01</option>
 										<option value="1">Category 02</option>
 									</select>-->
-									<input class="input" placeholder="Search here">
-									<button class="search-btn">Search</button>
+									<input class="input" name = "search" placeholder="Buscar">
+									<button class="search-btn" type="submit">Search</button>
 								</form>
 							</div>
 						</div>
@@ -252,7 +253,7 @@
 									<div class="products-slick" data-nav="#slick-nav-1">
 										<!-- product -->
 
-										{% for obj in stock %}
+										{% for obj in object_list %}
 
 											<div class="product">
 												<div class="product-img">
