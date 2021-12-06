@@ -10,8 +10,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 import os
 
-class main(LoginRequiredMixin, ListView):
-    login_url = '/login/'
+class main(ListView):
     model = productos
     template_name = 'tienda_main.html'
 
@@ -42,6 +41,11 @@ class pruebas_producto(LoginRequiredMixin, ListView):
 
         id = self.kwargs['id']
         producto = productos.objects.filter(id=id).first()
+
+
+        lista_facturas = mensajes.objects.filter(producto=producto).values_list('rate', flat=True)
+        lista_facturas = list(dict.fromkeys(lista_facturas))
+        print(lista_facturas)
 
         return mensajes.objects.filter(producto=producto)
 

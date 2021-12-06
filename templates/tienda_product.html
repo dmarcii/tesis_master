@@ -429,14 +429,53 @@
 																<p class="date">{{obj.fecha}}</p>
 																<div class="review-rating">
 
-																	<script >
-																		for(i=0;i<=4;i++)
-																		{
-																			var a = document.createElement('i');
-																			a.className = "fa fa-star";
-																			document.body.appendChild(a);
-																		}
-																	</script>
+																	{% if obj.rate == "0" %}
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																	{% endif %}
+
+																	{% if obj.rate == "1" %}
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																	{% endif %}
+
+																	{% if obj.rate == "2" %}
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																	{% endif %}
+
+																	{% if obj.rate == "3" %}
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o empty"></i>
+																		<i class="fa fa-star-o empty"></i>
+																	{% endif %}
+
+																	{% if obj.rate == "4" %}
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o empty"></i>
+																	{% endif %}
+
+																	{% if obj.rate == "5" %}
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																	{% endif %}
 
 																	<!--<i class="fa fa-star"></i>
 																	<i class="fa fa-star"></i>

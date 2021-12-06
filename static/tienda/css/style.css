@@ -93,7 +93,7 @@ ul, ol {
 .primary-btn {
   display: inline-block;
   padding: 12px 30px;
-  background-color: #D10024;
+  background-color: #ef5350;
   border: none;
   border-radius: 40px;
   color: #FFF;
@@ -118,7 +118,7 @@ ul, ol {
 .input {
   height: 40px;
   padding: 0px 15px;
-  border: 1px solid #E4E7ED;
+  border: 1px solid #ef5350;
   background-color: #FFF;
   width: 100%;
 }
@@ -143,7 +143,7 @@ textarea.input {
   -moz-appearance: textfield;
   height: 40px;
   width: 100%;
-  border: 1px solid #E4E7ED;
+  border: 1px solid #ef5350;
   background-color: #FFF;
   padding: 0px 35px 0px 15px;
 }
@@ -153,7 +153,7 @@ textarea.input {
   display: block;
   width: 20px;
   height: 20px;
-  border: 1px solid #E4E7ED;
+  border: 1px solid #ef5350;
   background-color: #FFF;
   text-align: center;
   font-weight: 700;
@@ -176,7 +176,7 @@ textarea.input {
 }
 
 .input-number .qty-up:hover, .input-number .qty-down:hover {
-  background-color: #E4E7ED;
+  background-color: #ef5350;
   color: #D10024;
 }
 
@@ -185,7 +185,7 @@ textarea.input {
 .input-select {
   padding: 0px 15px;
   background: #FFF;
-  border: 1px solid #E4E7ED;
+  border: 1px solid #ef5350;
   height: 40px;
 }
 
