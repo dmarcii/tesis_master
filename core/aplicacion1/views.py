@@ -13,6 +13,7 @@ from core.aplicacion1.codigo_qr import QR_CODE
 from django.contrib.auth.models import User
 from proyecto.settings import codigo_seguridad_qe
 import random
+from proyecto.app import *
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -43,7 +44,9 @@ def form_sell(request):
                                      precio=request.POST.get('precio'),
                                      imagen=pr[0][1],
                                      stock=request.POST.get('stock'),
-                                     vendedor=User.objects.get(username=request.user))
+                                     vendedor=User.objects.get(username=request.user),
+                                     descripccion=request.POST.get('descripccion'),
+                                     detalles=request.POST.get('detalles'))
 
             return redirect('/')
 
@@ -232,10 +235,24 @@ class list_store(ListView):
 
     def get_queryset(self, **kwargs):
 
+
         date_insert = self.request.POST.get('search')
 
         try:
-            return productos.objects.filter(nombre__icontains=date_insert)
+
+            reputaciones = []
+
+            obj = productos.objects.filter(nombre__icontains=date_insert)
+            print(obj)
+
+            for i in obj:
+                reputaciones.append(reputacion(i))
+                print(reputacion(i))
+
+
+            print(list(zip(obj, reputaciones)))
+
+            return list(zip(obj, reputaciones))
         except:
             pass
 

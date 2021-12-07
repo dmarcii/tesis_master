@@ -402,38 +402,75 @@
 								<div class="col-md-4 col-xs-6">
 									<div class="product">
 										<div class="product-img">
-											<img onclick="window.location='/producto/{{obj.id}}';" src="{% static "" %}imagenes/perfiles/{{obj.vendedor}}/{{obj.nombre}}/{{obj.imagen}}"" alt="">
+											<img onclick="window.location='/producto/{{obj.0.id}}';" src="{% static "" %}imagenes/perfiles/{{obj.0.vendedor}}/{{obj.0.nombre}}/{{obj.0.imagen}}"" alt="">
 											<div class="product-label">
 												<span class="sale">-30%</span>
 												<span class="new">NEW</span>
 											</div>
 										</div>
 										<div class="product-body">
-											<p class="product-category">{{obj.seccion}}</p>
-											<h3 class="product-name"><a href="#">{{obj.nombre}}</a></h3>
-											<h4 class="product-price">${{obj.precio}} <del class="product-old-price">${{obj.precio}}</del></h4>
+											<p class="product-category">{{obj.0.seccion}}</p>
+											<h3 class="product-name"><a href="#">{{obj.0.nombre}}</a></h3>
+											<h4 class="product-price">${{obj.0.precio}} <del class="product-old-price">${{obj.0.precio}}</del></h4>
 											<div class="product-rating">
+												{% if obj.1.promedio >= 0 and obj.1.promedio < 1 %}
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+												{% endif %}
 
+												{% if obj.1.promedio >= 1 and obj.1.promedio < 2 %}
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+												{% endif %}
 
+												{% if obj.1.promedio >= 2 and obj.1.promedio < 3 %}
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+												{% endif %}
 
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
+												{% if obj.1.promedio >= 3 and obj.1.promedio < 4 %}
 
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star-o empty"></i>
+													<i class="fa fa-star-o empty"></i>
+												{% endif %}
 
+												{% if obj.1.promedio >= 4 and obj.1.promedio < 5 %}
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star-o empty"></i>
+												{% endif %}
 
+												{% if obj.1.promedio >= 5 %}
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												{% endif %}
 											</div>
 											<div class="product-btns">
 												<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 												<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-												<button onclick="window.location.href='/producto/{{obj.id}}';" class="quick-view"><i  class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												<button onclick="window.location.href='/producto/{{obj.0.id}}';" class="quick-view"><i  class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
 											</div>
 										</div>
 
 										<div class="add-to-cart">
-											<form action="/addtocar/{{obj.id}}" method="POST">
+											<form action="/addtocar/{{obj.0.id}}" method="POST">
 												{% csrf_token %}
 												<button href="#" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 											</form>

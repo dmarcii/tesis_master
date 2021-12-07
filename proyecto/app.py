@@ -25,9 +25,6 @@ class main(ListView):
         for i in productos.objects.all():
             reputaciones.append(reputacion(i))
 
-        #print(context['reputaciones'])
-        print(list(zip(productos.objects.all(), reputaciones)))
-
         return list(zip(productos.objects.all(), reputaciones))
 
     def get_context_data(self, **kwargs):

@@ -10,6 +10,8 @@ class productos(models.Model):
     imagen = models.CharField(max_length=100)
     stock = models.IntegerField()
     vendedor = models.ForeignKey(User, on_delete=models.CASCADE)
+    descripccion = models.CharField(max_length=200,  default='no')
+    detalles = models.CharField(max_length=200,  default='no')
 
 
     class Meta:
