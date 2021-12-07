@@ -34,7 +34,6 @@ class main(ListView):
 
         return context
 
-
 class pruebas_producto(LoginRequiredMixin, ListView):
     login_url = '/login/'
     model = productos
@@ -65,8 +64,6 @@ class pruebas_producto(LoginRequiredMixin, ListView):
 
         context.update(c)
         return context
-
-
 
 def reputacion(producto):
 
@@ -102,8 +99,6 @@ def reputacion(producto):
             c[j] = [b[str(i)], 0]
 
     return c
-
-
 
 def register(request):
 
