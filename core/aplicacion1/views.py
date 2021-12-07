@@ -202,17 +202,45 @@ class list_all_invoices(LoginRequiredMixin, ListView):
 
         return context
 
-#@login_required(login_url='/login')
-def pruebas(request,id):
+@login_required(login_url='/login')
+def comentar(request,id):
 
     context = obtener_datos_carro(request.user)
     context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
-    #request.POST.get('username')
-    #print(request.POST)
 
     mensajes.objects.create(comprador=request.user,
                           producto=productos.objects.get(id=id),
                           msg=request.POST.get('coment'),
                           rate=request.POST.get('rating'))
 
-    return render(request, 'pruebaaas.html', context)
+    return redirect('/producto/'+id)
+
+
+@login_required(login_url='/login')
+def pruebas(request):
+    context = {}
+    return render(request, 'tienda_store.html', context)
+
+
+
+class list_store(ListView):
+
+    template_name = 'tienda_store.html'
+
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+
+        date_insert = self.request.POST.get('search')
+
+        try:
+            return productos.objects.filter(nombre__icontains=date_insert)
+        except:
+            pass
+
+    def get_context_data(self, **kwargs):
+
+        context = super(list_store, self).get_context_data(**kwargs)
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+        return context

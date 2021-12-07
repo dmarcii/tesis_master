@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from datetime import datetime
 from django.contrib.auth.models import User
+from collections import Counter
 import os
 
 class main(ListView):
@@ -19,11 +20,7 @@ class main(ListView):
 
     def get_queryset(self, **kwargs):
 
-        if self.request.POST:
-            date_insert = self.request.POST.get('search')
-            return productos.objects.filter(nombre__icontains=date_insert)
-        else:
-            return productos.objects.all()
+        return productos.objects.all()
 
     def get_context_data(self, **kwargs):
 
@@ -41,12 +38,6 @@ class pruebas_producto(LoginRequiredMixin, ListView):
 
         id = self.kwargs['id']
         producto = productos.objects.filter(id=id).first()
-
-
-        lista_facturas = mensajes.objects.filter(producto=producto).values_list('rate', flat=True)
-        lista_facturas = list(dict.fromkeys(lista_facturas))
-        print(lista_facturas)
-
         return mensajes.objects.filter(producto=producto)
 
     def get_context_data(self, **kwargs):
@@ -64,6 +55,38 @@ class pruebas_producto(LoginRequiredMixin, ListView):
             'C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles/' + str(
                 context['seller']) + '/' + str(producto.nombre))
 
+        lista_facturas = mensajes.objects.filter(producto=producto).values_list('rate', flat=True)
+        a = dict(Counter(lista_facturas))
+
+        cont1 = 0
+        b = {}
+        for i in a:
+            cont1 += (a[i])*int(i)
+
+        if len(lista_facturas) == 0:
+            context['promedio'] = 0
+        else:
+            context['promedio'] = round(cont1/len(lista_facturas),2)
+
+        for i in a:
+            b[i] = int((a[i]/len(lista_facturas))*100)
+
+        for i in ['0','1','2','3','4','5']:
+            try:
+                if b[i]:
+                    pass
+            except:
+                b[i] = 0
+
+        c={}
+        nombres = ['estrella0', 'estrella1', 'estrella2', 'estrella3', 'estrella4', 'estrella5']
+        for i,j in enumerate(nombres):
+            try:
+                c[j] = [b[str(i)], a[str(i)]]
+            except:
+                c[j] = [b[str(i)], 0]
+
+        context.update(c)
         return context
 
 def register(request):

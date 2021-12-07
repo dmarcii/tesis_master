@@ -82,7 +82,7 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form action="/" method="POST">
+								<form action="/busquedad/" method="POST">
 									{% csrf_token %}
 									<!--<select class="input-select">
 										<option value="0">All Categories</option>
@@ -337,13 +337,59 @@
 										<div class="col-md-3">
 											<div id="rating">
 												<div class="rating-avg">
-													<span>4.5</span>
+													<span>{{promedio}}</span>
 													<div class="rating-stars">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o"></i>
+
+
+														{% if promedio >= 0 and promedio < 1 %}
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 1 and promedio < 2 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 2 and promedio < 3 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 3 and promedio < 4 %}
+
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 4 and promedio < 5 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 5 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														{% endif %}
+
 													</div>
 												</div>
 												<ul class="rating">
@@ -356,9 +402,9 @@
 															<i class="fa fa-star"></i>
 														</div>
 														<div class="rating-progress">
-															<div style="width: 80%;"></div>
+															<div style="width: {{estrella5.0}}%;"></div>
 														</div>
-														<span class="sum">3</span>
+														<span class="sum">{{estrella5.1}}</span>
 													</li>
 													<li>
 														<div class="rating-stars">
@@ -367,11 +413,12 @@
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star-o"></i>
+
 														</div>
 														<div class="rating-progress">
-															<div style="width: 60%;"></div>
+															<div style="width: {{estrella4.0}}%;"></div>
 														</div>
-														<span class="sum">2</span>
+														<a class="sum">{{estrella4.1}}</a>
 													</li>
 													<li>
 														<div class="rating-stars">
@@ -382,9 +429,9 @@
 															<i class="fa fa-star-o"></i>
 														</div>
 														<div class="rating-progress">
-															<div></div>
+															<div style="width: {{estrella3.0}}%;"></div>
 														</div>
-														<span class="sum">0</span>
+														<span class="sum">{{estrella3.1}}</span>
 													</li>
 													<li>
 														<div class="rating-stars">
@@ -395,9 +442,9 @@
 															<i class="fa fa-star-o"></i>
 														</div>
 														<div class="rating-progress">
-															<div></div>
+															<div style="width: {{estrella2.0}}%;"></div>
 														</div>
-														<span class="sum">0</span>
+														<span class="sum">{{estrella2.1}}</span>
 													</li>
 													<li>
 														<div class="rating-stars">
@@ -408,9 +455,9 @@
 															<i class="fa fa-star-o"></i>
 														</div>
 														<div class="rating-progress">
-															<div></div>
+															<div style="width: {{estrella1.0}}%;"></div>
 														</div>
-														<span class="sum">0</span>
+														<span class="sum">{{estrella1.1}}</span>
 													</li>
 												</ul>
 											</div>
@@ -504,7 +551,7 @@
 										<!-- Review Form -->
 										<div class="col-md-3">
 											<div id="review-form">
-												<form class="review-form" action="/pruebaaas/{{id_producto}}" method="POST">
+												<form class="review-form" action="/comentar/{{id_producto}}" method="POST">
 													{% csrf_token %}
 													<textarea class="input" name = "coment" style="min-height:250px" placeholder="Your Review"></textarea>
 													<div class="input-rating">
