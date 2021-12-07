@@ -20,12 +20,21 @@ class main(ListView):
 
     def get_queryset(self, **kwargs):
 
-        return productos.objects.all()
+        reputaciones = []
+
+        for i in productos.objects.all():
+            reputaciones.append(reputacion(i))
+
+        #print(context['reputaciones'])
+        print(list(zip(productos.objects.all(), reputaciones)))
+
+        return list(zip(productos.objects.all(), reputaciones))
 
     def get_context_data(self, **kwargs):
 
         context = super(main, self).get_context_data(**kwargs)
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+
         return context
 
 
@@ -55,39 +64,49 @@ class pruebas_producto(LoginRequiredMixin, ListView):
             'C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles/' + str(
                 context['seller']) + '/' + str(producto.nombre))
 
-        lista_facturas = mensajes.objects.filter(producto=producto).values_list('rate', flat=True)
-        a = dict(Counter(lista_facturas))
-
-        cont1 = 0
-        b = {}
-        for i in a:
-            cont1 += (a[i])*int(i)
-
-        if len(lista_facturas) == 0:
-            context['promedio'] = 0
-        else:
-            context['promedio'] = round(cont1/len(lista_facturas),2)
-
-        for i in a:
-            b[i] = int((a[i]/len(lista_facturas))*100)
-
-        for i in ['0','1','2','3','4','5']:
-            try:
-                if b[i]:
-                    pass
-            except:
-                b[i] = 0
-
-        c={}
-        nombres = ['estrella0', 'estrella1', 'estrella2', 'estrella3', 'estrella4', 'estrella5']
-        for i,j in enumerate(nombres):
-            try:
-                c[j] = [b[str(i)], a[str(i)]]
-            except:
-                c[j] = [b[str(i)], 0]
+        c = reputacion(producto)
 
         context.update(c)
         return context
+
+
+
+def reputacion(producto):
+
+    lista_facturas = mensajes.objects.filter(producto=producto).values_list('rate', flat=True)
+    a = dict(Counter(lista_facturas))
+
+    cont1 = 0
+    b = {}
+    c = {}
+    for i in a:
+        cont1 += (a[i]) * int(i)
+
+    if len(lista_facturas) == 0:
+        c['promedio'] = 0
+    else:
+        c['promedio'] = round(cont1 / len(lista_facturas), 2)
+
+    for i in a:
+        b[i] = int((a[i] / len(lista_facturas)) * 100)
+
+    for i in ['0', '1', '2', '3', '4', '5']:
+        try:
+            if b[i]:
+                pass
+        except:
+            b[i] = 0
+
+    nombres = ['estrella0', 'estrella1', 'estrella2', 'estrella3', 'estrella4', 'estrella5']
+    for i, j in enumerate(nombres):
+        try:
+            c[j] = [b[str(i)], a[str(i)]]
+        except:
+            c[j] = [b[str(i)], 0]
+
+    return c
+
+
 
 def register(request):
 
