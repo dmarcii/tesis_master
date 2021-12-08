@@ -255,8 +255,6 @@
 
 										{% for obj in object_list %}
 
-
-
 											<div class="product">
 												<div class="product-img">
 													<img onclick="window.location='/producto/{{obj.0.id}}';" src="{% static "" %}imagenes/perfiles/{{obj.0.vendedor}}/{{obj.0.nombre}}/{{obj.0.imagen}}"" alt="">
@@ -269,7 +267,7 @@
 													<h3 class="product-name"><a href="#">{{obj.0.nombre}}</a></h3>
 													<h4 class="product-price">${{obj.0.precio}} <del class="product-old-price">${{obj.0.precio}}</del></h4>
 													<div class="product-rating">
-														{% if obj.1.promedio >= 0 and obj.1.promedio < 1 %}
+														{% if obj.1 >= 0 and obj.1 < 1 %}
 															<i class="fa fa-star-o empty"></i>
 															<i class="fa fa-star-o empty"></i>
 															<i class="fa fa-star-o empty"></i>
@@ -277,7 +275,7 @@
 															<i class="fa fa-star-o empty"></i>
 														{% endif %}
 
-														{% if obj.1.promedio >= 1 and obj.1.promedio < 2 %}
+														{% if obj.1 >= 1 and obj.1 < 2 %}
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star-o empty"></i>
 															<i class="fa fa-star-o empty"></i>
@@ -285,7 +283,7 @@
 															<i class="fa fa-star-o empty"></i>
 														{% endif %}
 
-														{% if obj.1.promedio >= 2 and obj.1.promedio < 3 %}
+														{% if obj.1 >= 2 and obj.1 < 3 %}
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star-o empty"></i>
@@ -293,7 +291,7 @@
 															<i class="fa fa-star-o empty"></i>
 														{% endif %}
 
-														{% if obj.1.promedio >= 3 and obj.1.promedio < 4 %}
+														{% if obj.1 >= 3 and obj.1 < 4 %}
 
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
@@ -302,7 +300,7 @@
 															<i class="fa fa-star-o empty"></i>
 														{% endif %}
 
-														{% if obj.1.promedio >= 4 and obj.1.promedio < 5 %}
+														{% if obj.1 >= 4 and obj.1 < 5 %}
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
@@ -310,7 +308,7 @@
 															<i class="fa fa-star-o empty"></i>
 														{% endif %}
 
-														{% if obj.1.promedio >= 5 %}
+														{% if obj.1 >= 5 %}
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>

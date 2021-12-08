@@ -66,7 +66,6 @@ def upimage(pr, user, nombre_producto):
     for i in pr:
         fs.save(rutaUser + i[1], i[0])
 
-
 def obtener_datos_carro(usuario):
     context = {}
 
@@ -115,7 +114,6 @@ def eliminarCar(request, id):
     ordenes.objects.filter(comprador=request.user, id=id).delete()
     return redirect('/car')
 
-
 @login_required(login_url='/login')
 def buy(request, id):
 
@@ -152,7 +150,6 @@ def buy(request, id):
 
     return redirect('/car')
 
-
 @login_required(login_url='/login')
 def show_invoice(request, id):
 
@@ -177,7 +174,6 @@ def show_invoice(request, id):
     context['totaliva'] = a[0].total
 
     return render(request, 'invoice.html', context)
-
 
 def _get_hashed_password(password):
     return pbkdf2_sha256.encrypt(password, rounds=10, salt_size=10)
@@ -218,13 +214,10 @@ def comentar(request,id):
 
     return redirect('/producto/'+id)
 
-
 @login_required(login_url='/login')
 def pruebas(request):
     context = {}
     return render(request, 'tienda_store.html', context)
-
-
 
 class list_store(ListView):
 
@@ -235,23 +228,13 @@ class list_store(ListView):
 
     def get_queryset(self, **kwargs):
 
-
         date_insert = self.request.POST.get('search')
 
         try:
-
             reputaciones = []
-
             obj = productos.objects.filter(nombre__icontains=date_insert)
-            print(obj)
-
             for i in obj:
                 reputaciones.append(reputacion(i))
-                print(reputacion(i))
-
-
-            print(list(zip(obj, reputaciones)))
-
             return list(zip(obj, reputaciones))
         except:
             pass

@@ -23,7 +23,7 @@ class main(ListView):
         reputaciones = []
 
         for i in productos.objects.all():
-            reputaciones.append(reputacion(i))
+            reputaciones.append(reputacion(i, opc='no')['promedio'])
 
         return list(zip(productos.objects.all(), reputaciones))
 
@@ -65,14 +65,17 @@ class pruebas_producto(LoginRequiredMixin, ListView):
         context.update(c)
         return context
 
-def reputacion(producto):
+def reputacion(producto, opc='todo'):
 
     lista_facturas = mensajes.objects.filter(producto=producto).values_list('rate', flat=True)
     a = dict(Counter(lista_facturas))
 
     cont1 = 0
-    b = {}
+
     c = {}
+
+    #print(list(map(int, lista_facturas)))
+
     for i in a:
         cont1 += (a[i]) * int(i)
 
@@ -81,22 +84,27 @@ def reputacion(producto):
     else:
         c['promedio'] = round(cont1 / len(lista_facturas), 2)
 
-    for i in a:
-        b[i] = int((a[i] / len(lista_facturas)) * 100)
 
-    for i in ['0', '1', '2', '3', '4', '5']:
-        try:
-            if b[i]:
-                pass
-        except:
-            b[i] = 0
+    if opc == 'todo':
 
-    nombres = ['estrella0', 'estrella1', 'estrella2', 'estrella3', 'estrella4', 'estrella5']
-    for i, j in enumerate(nombres):
-        try:
-            c[j] = [b[str(i)], a[str(i)]]
-        except:
-            c[j] = [b[str(i)], 0]
+        b = {}
+
+        for i in a:
+            b[i] = int((a[i] / len(lista_facturas)) * 100)
+
+        for i in ['0', '1', '2', '3', '4', '5']:
+            try:
+                if b[i]:
+                    pass
+            except:
+                b[i] = 0
+
+        nombres = ['estrella0', 'estrella1', 'estrella2', 'estrella3', 'estrella4', 'estrella5']
+        for i, j in enumerate(nombres):
+            try:
+                c[j] = [b[str(i)], a[str(i)]]
+            except:
+                c[j] = [b[str(i)], 0]
 
     return c
 
