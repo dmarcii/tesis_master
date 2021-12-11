@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.views.generic import ListView
 from core.aplicacion1.models import *
 from core.aplicacion1.formularioVender import formventa
@@ -14,6 +15,7 @@ from django.contrib.auth.models import User
 from proyecto.settings import codigo_seguridad_qe
 import random
 from proyecto.app import *
+from core.cede_app.models import *
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -117,6 +119,7 @@ def eliminarCar(request, id):
 @login_required(login_url='/login')
 def buy(request, id):
 
+
     if request.method == 'POST':
 
         if id == '-1':
@@ -143,6 +146,12 @@ def buy(request, id):
                                        sub_total=context['total'],
                                        iva=context['iva'],
                                        total=context['totaliva'])
+
+            estados_productos.objects.create(comprador=request.user,
+                                   code_t = hash_t,
+                                   estado=0,
+                                   detalles='No verificado',
+                                   verficacion=False)
 
             ordenes.objects.filter(comprador=request.user).delete()
 
@@ -172,6 +181,18 @@ def show_invoice(request, id):
     context['total'] = a[0].sub_total
     context['iva'] = a[0].iva
     context['totaliva'] = a[0].total
+
+    estado_obj = estados_productos.objects.get(code_t=a[0].code_t)
+
+    valoraciones = ['Sin valoracion', 'Muy mal estado', 'En mal estado', 'Con detalles', 'En buen estado con pocos detalles', 'Perfecto estado']
+
+    context['valoracion'] = valoraciones[estado_obj.estado]
+    context['detalles'] = estado_obj.detalles
+
+    if estado_obj.verficacion:
+        context['verficacion'] = 'Verificado'
+    else:
+        context['verficacion'] = 'No verificado'
 
     return render(request, 'invoice.html', context)
 
@@ -217,7 +238,11 @@ def comentar(request,id):
 @login_required(login_url='/login')
 def pruebas(request):
     context = {}
-    return render(request, 'tienda_store.html', context)
+    print(request.COOKIES)
+    response = render(request, 'pruebaaas.html', context)
+    response.set_cookie('mikuki', 'hola mundo')
+    print(request.COOKIES)
+    return response
 
 class list_store(ListView):
 

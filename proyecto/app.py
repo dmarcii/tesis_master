@@ -28,7 +28,6 @@ class main(ListView):
         return list(zip(productos.objects.all(), reputaciones))
 
     def get_context_data(self, **kwargs):
-
         context = super(main, self).get_context_data(**kwargs)
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
 
