@@ -290,6 +290,5 @@ class edit(LoginRequiredMixin, ListView):
 
 @login_required(login_url='/login')
 def eliminarProducto(request, id):
-    print(id)
     productos.objects.filter(vendedor=request.user, id=id).delete()
     return redirect('/editar')
