@@ -274,7 +274,6 @@ class list_store(ListView):
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
         return context
 
-
 class edit(LoginRequiredMixin, ListView):
     login_url = '/login/'
     template_name = 'editar_productos_hija.html'

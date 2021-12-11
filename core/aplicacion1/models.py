@@ -13,13 +13,11 @@ class productos(models.Model):
     descripccion = models.CharField(max_length=200,  default='no')
     detalles = models.CharField(max_length=200,  default='no')
 
-
     class Meta:
         verbose_name='producto'
         verbose_name_plural='productos'
         db_table='productos'   #nombre de la base de datos en mysql
         ordering=['id']
-
 
 class perfil_datos(models.Model):
     nombre = models.CharField(max_length=20)
@@ -35,7 +33,6 @@ class perfil_datos(models.Model):
         db_table='perfil'
         ordering=['id']
 
-
 class ordenes(models.Model):
     comprador = models.CharField(max_length=20)
     cantidad = models.IntegerField()
@@ -47,7 +44,6 @@ class ordenes(models.Model):
         verbose_name_plural='ordenes'
         db_table='ordenes'
         ordering=['id']
-
 
 class mensajes(models.Model):
     comprador = models.CharField(max_length=20)
@@ -61,7 +57,6 @@ class mensajes(models.Model):
         verbose_name_plural='mensajes'
         db_table='mensaje'
         ordering=['id']
-
 
 class ventas(models.Model):
     comprador = models.CharField(max_length=20)
