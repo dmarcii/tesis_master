@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.views.generic import ListView
 from core.aplicacion1.models import *
 from core.aplicacion1.formularioVender import formventa
-from core.aplicacion1.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms.models import model_to_dict
@@ -238,11 +237,16 @@ def comentar(request,id):
 @login_required(login_url='/login')
 def pruebas(request):
     context = {}
-    print(request.COOKIES)
-    response = render(request, 'pruebaaas.html', context)
-    response.set_cookie('mikuki', 'hola mundo')
-    print(request.COOKIES)
-    return response
+    #print(request.COOKIES)
+    #response = render(request, 'pruebaaas.html', context)
+    #response.set_cookie('mikuki', 'hola mundo')
+    #print(request.COOKIES)
+    #return response
+
+    context = obtener_datos_carro(request.user)
+    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
+
+    return render(request, 'editar_productos_hija.html', context)
 
 class list_store(ListView):
 
@@ -269,3 +273,23 @@ class list_store(ListView):
         context = super(list_store, self).get_context_data(**kwargs)
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
         return context
+
+
+class edit(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    template_name = 'editar_productos_hija.html'
+
+    def get_queryset(self, **kwargs):
+
+        return productos.objects.filter(vendedor=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+
+        return context
+
+@login_required(login_url='/login')
+def eliminarProducto(request, id):
+    productos.objects.filter(vendedor=request.user, id=id).delete()
+    return redirect('/editar')

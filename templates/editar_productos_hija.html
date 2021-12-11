@@ -1,0 +1,35 @@
+{% extends 'tienda_blank.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="col-md7">
+      <table class="table table-striped table-botdered bg-white table-sm">
+        <thead>
+          <tr>
+            <td><h4>Foto</h4></td>
+            <td><h4>Nombre</h4></td>
+            <td><h4>Seccion</h4></td>
+            <td><h4>Precio</h4></td>
+            <td><h4>Cantidad</h4></td>
+            <td><h4>Editar</h4></td>
+            <td><h4>Eliminar</h4></td>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for obj in object_list %}
+          <tr>
+            <td>  <img src="{% static "" %}imagenes/perfiles/{{obj.vendedor}}/{{ obj.nombre  }}/{{ obj.imagen  }}"  width="50" height="50"> </td>
+            <td><h5 class="card-title">{{obj.nombre}}</h5></td>
+            <td><h5>{{obj.seccion}}</h5></td>
+            <td id="precio"><h5>{{obj.precio}}$</h5></td>
+            <td><h5>{{obj.stock}}</h5></td>
+            <td><h5><a href="/edit/{{obj.id}}" class="btn btn-danger">Editar</a></h5></td>
+            <td><h5><a href="/del/{{obj.id}}" class="btn btn-danger">Eliminar</a></h5></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+{% endblock %}

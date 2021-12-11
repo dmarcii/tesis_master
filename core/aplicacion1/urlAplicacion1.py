@@ -12,6 +12,8 @@ urlpatterns = [
     path('facturas/', list_all_invoices.as_view(), name='facturas'),
     path('comentar/<str:id>', comentar, name='comentar'),
     path('busquedad/', list_store.as_view(), name='prueba'),
+    path('editar/', edit.as_view(), name='prueba'),
+    path('del/<int:id>', eliminarProducto, name='eliminar'),
     path('pruebaaas/', pruebas),
 
 ]
