@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from datetime import datetime
 from django.contrib.auth.models import User
 from collections import Counter
+from django.views import View
 import os
 
 class main(ListView):
@@ -149,3 +150,4 @@ def addcar(request, id):
                            cantidad=cantidad,
                            producto_id=id)
     return redirect('/car')
+

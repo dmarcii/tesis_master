@@ -414,7 +414,7 @@
 											<h3 class="product-name"><a href="#">{{obj.0.nombre}}</a></h3>
 											<h4 class="product-price">${{obj.0.precio}} <del class="product-old-price">${{obj.0.precio}}</del></h4>
 											<div class="product-rating">
-												{% if obj.1.promedio >= 0 and obj.1.promedio < 1 %}
+												{% if obj.1 >= 0 and obj.1 < 1 %}
 													<i class="fa fa-star-o empty"></i>
 													<i class="fa fa-star-o empty"></i>
 													<i class="fa fa-star-o empty"></i>
@@ -422,7 +422,7 @@
 													<i class="fa fa-star-o empty"></i>
 												{% endif %}
 
-												{% if obj.1.promedio >= 1 and obj.1.promedio < 2 %}
+												{% if obj.1 >= 1 and obj.1 < 2 %}
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star-o empty"></i>
 													<i class="fa fa-star-o empty"></i>
@@ -430,7 +430,7 @@
 													<i class="fa fa-star-o empty"></i>
 												{% endif %}
 
-												{% if obj.1.promedio >= 2 and obj.1.promedio < 3 %}
+												{% if obj.1 >= 2 and obj.1 < 3 %}
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star-o empty"></i>
@@ -438,7 +438,7 @@
 													<i class="fa fa-star-o empty"></i>
 												{% endif %}
 
-												{% if obj.1.promedio >= 3 and obj.1.promedio < 4 %}
+												{% if obj.1 >= 3 and obj.1 < 4 %}
 
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
@@ -447,7 +447,7 @@
 													<i class="fa fa-star-o empty"></i>
 												{% endif %}
 
-												{% if obj.1.promedio >= 4 and obj.1.promedio < 5 %}
+												{% if obj.1 >= 4 and obj.1 < 5 %}
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
@@ -455,7 +455,7 @@
 													<i class="fa fa-star-o empty"></i>
 												{% endif %}
 
-												{% if obj.1.promedio >= 5 %}
+												{% if obj.1 >= 5 %}
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
@@ -488,12 +488,25 @@
 						<!-- store bottom filter -->
 						<div class="store-filter clearfix">
 							<span class="store-qty">Showing 20-100 products</span>
-							<ul class="store-pagination">
-								<li class="active">1</li>
+							<ul class="store-pagination"  id="episode_paging">
+
+								{% if paginas.has_previous %}
+									<li><a href="?page=1&busquedad={{search}}">First</a></li>
+									<li><a href="?page={{ paginas.previous_page_number }}&busquedad={{search}}">&lt;</a></li>
+								{% endif %}
+
+								Page {{ paginas.number }} of {{ paginas.paginator.num_pages }}
+
+								{% if paginas.has_next %}
+									<li><a href="?page={{paginas.next_page_number}}&busquedad={{search}}">next</a></li>
+									<li><a href="?page={{ paginas.paginator.num_pages }}&busquedad={{search}}">&gt;</a></li>
+								{% endif %}
+
+								<!--<li class="active">1</li>
 								<li><a href="#">2</a></li>
 								<li><a href="#">3</a></li>
 								<li><a href="#">4</a></li>
-								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>-->
 							</ul>
 						</div>
 						<!-- /store bottom filter -->

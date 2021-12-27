@@ -15,5 +15,6 @@ urlpatterns = [
     path('editar/', edit.as_view(), name='prueba'),
     path('del/<int:id>', eliminarProducto, name='eliminar'),
     path('pruebaaas/', pruebas),
+    path('pruebaaas2/', pruebas2),
 
 ]

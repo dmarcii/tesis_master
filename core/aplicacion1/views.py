@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
 from core.aplicacion1.models import *
 from core.aplicacion1.formularioVender import formventa
@@ -15,6 +15,8 @@ from proyecto.settings import codigo_seguridad_qe
 import random
 from proyecto.app import *
 from core.cede_app.models import *
+from datetime import datetime
+from django.core.paginator import Paginator
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -117,7 +119,6 @@ def eliminarCar(request, id):
 
 @login_required(login_url='/login')
 def buy(request, id):
-
 
     if request.method == 'POST':
 
@@ -243,35 +244,83 @@ def pruebas(request):
     #print(request.COOKIES)
     #return response
 
-    context = obtener_datos_carro(request.user)
-    context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
+    if request.is_ajax():
+        print('a')
 
-    return render(request, 'editar_productos_hija.html', context)
+    now = datetime.now()
+    context['hora'] = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    #return render(request, 'editar_productos_hija.html', context)
+    return render(request, 'pruebaaas.html', context)
+
+@login_required(login_url='/login')
+def pruebas2(request):
+    context = {}
+    pr = productos.objects.all()
+    context['productos'] = pr
+    #now = datetime.now()
+    #context['hora'] = now.strftime("%Y-%m-%d %H:%M:%S")
+    #context['paper'] = productos.objects.all()[0]
+    #print(JsonResponse(context, safe=True))
+
+    return render(request, 'pruebajax.html', context)
+
+    #return JsonResponse(context, safe=False)
+
 
 class list_store(ListView):
 
     template_name = 'tienda_store.html'
 
-    def post(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        self.page = 1
+        if request.method == 'GET':
+            self.date_insert = self.request.GET.get('busquedad')
+            try:
+                self.obj = productos.objects.filter(nombre__icontains=self.date_insert)
+            except:
+                pass
+
+            self.page = self.request.GET.get('page')
+            return self.get(request, *args, **kwargs)
+        elif request.method == 'POST':
+            self.date_insert = self.request.POST.get('search')
+            try:
+                self.obj = productos.objects.filter(nombre__icontains=self.date_insert)
+            except:
+                pass
+
+            return self.get(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
 
-        date_insert = self.request.POST.get('search')
-
         try:
+            p = Paginator(self.obj, 3)
+            self.paginacion = p.get_page(self.page)
+            obj = p.page(self.page).object_list
+
             reputaciones = []
-            obj = productos.objects.filter(nombre__icontains=date_insert)
+
             for i in obj:
-                reputaciones.append(reputacion(i))
+                reputaciones.append(reputacion(i, opc='no')['promedio'])
+
             return list(zip(obj, reputaciones))
-        except:
+        except Exception as e:
+            print(e)
             pass
 
     def get_context_data(self, **kwargs):
 
         context = super(list_store, self).get_context_data(**kwargs)
+        try:
+         context['paginas'] = self.paginacion
+         context['search'] = self.date_insert
+
+        except:
+            pass
+
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+
         return context
 
 class edit(LoginRequiredMixin, ListView):
@@ -279,7 +328,6 @@ class edit(LoginRequiredMixin, ListView):
     template_name = 'editar_productos_hija.html'
 
     def get_queryset(self, **kwargs):
-
         return productos.objects.filter(vendedor=self.request.user)
 
     def get_context_data(self, **kwargs):
@@ -290,6 +338,5 @@ class edit(LoginRequiredMixin, ListView):
 
 @login_required(login_url='/login')
 def eliminarProducto(request, id):
-    print('abc')
     productos.objects.filter(vendedor=request.user, id=id).delete()
     return redirect('/editar')
