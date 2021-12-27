@@ -306,7 +306,6 @@ class list_store(ListView):
 
             return list(zip(obj, reputaciones))
         except Exception as e:
-            print(e)
             pass
 
     def get_context_data(self, **kwargs):

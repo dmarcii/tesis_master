@@ -487,19 +487,18 @@
 
 						<!-- store bottom filter -->
 						<div class="store-filter clearfix">
-							<span class="store-qty">Showing 20-100 products</span>
-							<ul class="store-pagination"  id="episode_paging">
+							<ul class="store-pagination">
 
 								{% if paginas.has_previous %}
-									<li><a href="?page=1&busquedad={{search}}">First</a></li>
-									<li><a href="?page={{ paginas.previous_page_number }}&busquedad={{search}}">&lt;</a></li>
+									<li><a href="?page=1&busquedad={{search}}">&lt;</a></li>
+									<li><a href="?page={{paginas.previous_page_number}}&busquedad={{search}}">{{paginas.previous_page_number}}</a></li>
 								{% endif %}
 
-								Page {{ paginas.number }} of {{ paginas.paginator.num_pages }}
+								<li class="active">{{ paginas.number }}</li>
 
 								{% if paginas.has_next %}
-									<li><a href="?page={{paginas.next_page_number}}&busquedad={{search}}">next</a></li>
-									<li><a href="?page={{ paginas.paginator.num_pages }}&busquedad={{search}}">&gt;</a></li>
+									<li><a href="?page={{paginas.next_page_number}}&busquedad={{search}}">{{paginas.next_page_number}}</a></li>
+									<li><a href="?page={{ paginas.paginator.num_pages }}&busquedad={{search}}">&gt</a></li>
 								{% endif %}
 
 								<!--<li class="active">1</li>
