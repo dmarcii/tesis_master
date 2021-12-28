@@ -1,0 +1,16 @@
+<div id="condiciones_pag" class="store-filter clearfix">
+    <ul class="store-pagination">
+        holaaaa
+        {% if paginas.has_previous %}
+            <li><a id="primero" onclick="myfunc(1);">&lt;</a></li>
+            <li><a id="anterior" onclick="myfunc({{paginas.previous_page_number}});">{{paginas.previous_page_number}}</a></li>
+        {% endif %}
+
+        <li class="active">{{ paginas.number }}</li>
+
+        {% if paginas.has_next %}
+            <li><a id="siguiente" onclick="myfunc({{paginas.next_page_number}});">{{paginas.next_page_number}}</a></li>
+            <li><a id="ultimo" onclick="myfunc({{paginas.paginator.num_pages}});">&gt</a></li>
+        {% endif %}
+    </ul>
+</div>

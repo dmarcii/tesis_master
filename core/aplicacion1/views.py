@@ -268,6 +268,53 @@ def pruebas2(request):
     #return JsonResponse(context, safe=False)
 
 
+
+
+def busquedad_productos(request):
+    context = {}
+    date_insert = request.GET.get('busquedad')
+    pages = request.GET.get('page')
+
+    try:
+        min = float(request.GET.get('min'))
+        max = float(request.GET.get('max'))
+        obj = productos.objects.filter(nombre__icontains=date_insert,
+                                            precio__lte=max,
+                                            precio__gte=min,)
+    except Exception as e:
+        obj = productos.objects.filter(nombre__icontains=self.date_insert)
+
+    try:
+
+        p = Paginator(obj, 1)
+
+        if pages == None:
+            pages = 1
+
+        paginacion = p.get_page(pages)
+        obj = p.page(pages).object_list
+
+        reputaciones = []
+
+        for i in obj:
+            reputaciones.append(reputacion(i, opc='no')['promedio'])
+
+    except Exception as e:
+        pass
+
+    context['paginas'] = paginacion
+    context['search'] = date_insert
+    context['object_list'] = list(zip(obj, reputaciones))
+    context['1ro_template'] = render(request, 'reload_products.html', context)
+    context['2do_template'] = render(request, 'paginacion_productos.html', context)
+
+
+    print(context)
+    #return JsonResponse(context, safe=False)
+    return render(request, 'reload_products.html', context)
+
+
+
 class list_store(ListView):
 
     template_name = 'tienda_store.html'
@@ -276,6 +323,7 @@ class list_store(ListView):
         self.page = 1
         if request.method == 'GET':
             self.date_insert = self.request.GET.get('busquedad')
+
             try:
                 self.obj = productos.objects.filter(nombre__icontains=self.date_insert)
             except:
@@ -283,6 +331,8 @@ class list_store(ListView):
 
             self.page = self.request.GET.get('page')
             return self.get(request, *args, **kwargs)
+
+
         elif request.method == 'POST':
             self.date_insert = self.request.POST.get('search')
             try:
@@ -295,8 +345,13 @@ class list_store(ListView):
     def get_queryset(self, **kwargs):
 
         try:
-            p = Paginator(self.obj, 3)
+            p = Paginator(self.obj, 1)
+
+            if self.page == None:
+                self.page = 1
+
             self.paginacion = p.get_page(self.page)
+
             obj = p.page(self.page).object_list
 
             reputaciones = []
@@ -307,6 +362,8 @@ class list_store(ListView):
             return list(zip(obj, reputaciones))
         except Exception as e:
             pass
+
+
 
     def get_context_data(self, **kwargs):
 
@@ -321,6 +378,29 @@ class list_store(ListView):
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
 
         return context
+
+
+
+
+
+
+
+
+class edit(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    template_name = 'editar_productos_hija.html'
+
+    def get_queryset(self, **kwargs):
+
+        return productos.objects.filter(vendedor=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+
+        return context
+
+
 
 class edit(LoginRequiredMixin, ListView):
     login_url = '/login/'

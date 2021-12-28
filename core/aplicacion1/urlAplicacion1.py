@@ -16,5 +16,4 @@ urlpatterns = [
     path('del/<int:id>', eliminarProducto, name='eliminar'),
     path('pruebaaas/', pruebas),
     path('pruebaaas2/', pruebas2),
-
 ]
