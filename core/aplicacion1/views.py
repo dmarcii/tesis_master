@@ -320,60 +320,46 @@ class list_store(ListView):
     template_name = 'tienda_store.html'
 
     def dispatch(self, request, *args, **kwargs):
-        self.page = 1
+
         if request.method == 'GET':
+            print(self.request.GET.get('minimo'))
+            print(self.request.GET.get('maximo'))
+
             self.date_insert = self.request.GET.get('busquedad')
-
-            try:
-                self.obj = productos.objects.filter(nombre__icontains=self.date_insert)
-            except:
-                pass
-
+            self.obj = productos.objects.filter(nombre__icontains=self.date_insert)
             self.page = self.request.GET.get('page')
             return self.get(request, *args, **kwargs)
 
-
         elif request.method == 'POST':
-            self.date_insert = self.request.POST.get('search')
-            try:
-                self.obj = productos.objects.filter(nombre__icontains=self.date_insert)
-            except:
-                pass
-
             return self.get(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
 
-        try:
-            p = Paginator(self.obj, 1)
+        p = Paginator(self.obj, 2)
 
-            if self.page == None:
-                self.page = 1
+        if self.page == None:
+            self.page = 1
 
-            self.paginacion = p.get_page(self.page)
+        self.paginacion = p.get_page(self.page)
 
-            obj = p.page(self.page).object_list
+        obj = p.page(self.page).object_list
 
-            reputaciones = []
+        reputaciones = []
 
-            for i in obj:
-                reputaciones.append(reputacion(i, opc='no')['promedio'])
+        for i in obj:
+            reputaciones.append(reputacion(i, opc='no')['promedio'])
 
-            return list(zip(obj, reputaciones))
+        return list(zip(obj, reputaciones))
+
+        '''try:
         except Exception as e:
-            pass
-
-
+            pass'''
 
     def get_context_data(self, **kwargs):
 
         context = super(list_store, self).get_context_data(**kwargs)
-        try:
-         context['paginas'] = self.paginacion
-         context['search'] = self.date_insert
 
-        except:
-            pass
+        context['paginas'] = self.paginacion
 
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
 

@@ -90,6 +90,8 @@
 										<option value="1">Category 01</option>
 										<option value="1">Category 02</option>
 									</select>-->
+									<input type="hidden" value="0" name="minimo" name="supporttype" />
+									<input type="hidden" value="ind" name="maximo" name="supporttype" />
 									<input class="input", id="busquedad" name = "busquedad" placeholder="Buscar">
 									<button class="search-btn" type="submit">Search</button>
 								</form>
@@ -502,7 +504,7 @@
 
 								{% if paginas.has_next %}
 									<li><a id="siguiente" href="?&page={{paginas.next_page_number}}&busquedad={{search}}">{{paginas.next_page_number}}</a></li>
-									<li><a id="ultimo" href="?&page={{paginas..paginator.num_pages}}&busquedad={{search}}">&gt</a></li>
+									<li><a id="ultimo" href="?&page={{paginas.paginator.num_pages}}&busquedad={{search}}">&gt</a></li>
 								{% endif %}
 
 								<!--<li class="active">1</li>
