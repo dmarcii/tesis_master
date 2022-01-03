@@ -84,7 +84,6 @@
 						<div class="col-md-6">
 							<div class="header-search">
 								<form action="/busquedad/" method="GET">
-									{% csrf_token %}
 									<!--<select class="input-select">
 										<option value="0">All Categories</option>
 										<option value="1">Category 01</option>
@@ -234,7 +233,7 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">New Products</h3>
+							<h3 class="title">Nuevos Productos</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
 									<li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
@@ -321,7 +320,7 @@
 													</div>
 													<div class="product-btns"> <!-- href="https://example.com" -->
 														<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-														<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+														<!--<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>-->
 
 														<button onclick="window.location.href='/producto/{{obj.0.id}}';" class="quick-view"><i  class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
 													</div>
@@ -407,7 +406,7 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">Top selling</h3>
+							<h3 class="title">Mas vendidos</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
 									<li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
@@ -428,148 +427,85 @@
 								<div id="tab2" class="tab-pane fade in active">
 									<div class="products-slick" data-nav="#slick-nav-2">
 										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="{% static 'tienda/img/product06.png' %}" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+										{% for obj in top_sell %}
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="{% static 'tienda/img/product07.png' %}" alt="">
-												<div class="product-label">
-													<span class="new">NEW</span>
+											<div class="product">
+												<div class="product-img">
+													<img onclick="window.location='/producto/{{obj.0.id}}';" src="{% static "" %}imagenes/perfiles/{{obj.0.vendedor}}/{{obj.0.nombre}}/{{obj.0.imagen}}"" alt="">
+													<div class="product-label">
+														<span class="new">NEW</span>
+													</div>
 												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+												<div class="product-body">
+													<p class="product-category">{{obj.0.seccion}}</p>
+													<h3 class="product-name"><a href="#">{{obj.0.nombre}}</a></h3>
+													<h4 class="product-price">${{obj.0.precio}} <del class="product-old-price">${{obj.0.precio}}</del></h4>
+													<div class="product-rating">
+														{% if obj.1 >= 0 and obj.1 < 1 %}
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="{% static 'tienda/img/product08.png' %}" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+														{% if obj.1 >= 1 and obj.1 < 2 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="{% static 'tienda/img/product09.png' %}" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+														{% if obj.1 >= 2 and obj.1 < 3 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="{% static 'tienda/img/product01.png' %}" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
+														{% if obj.1 >= 3 and obj.1 < 4 %}
+
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if obj.1 >= 4 and obj.1 < 5 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if obj.1 >= 5 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														{% endif %}
+													</div>
+													<div class="product-btns"> <!-- href="https://example.com" -->
+														<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														<!--<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>-->
+
+														<button onclick="window.location.href='/producto/{{obj.0.id}}';" class="quick-view"><i  class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+													</div>
 												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												<div class="add-to-cart">
+													<form action="/addtocar/{{obj.0.id}}" method="POST">
+														{% csrf_token %}
+														<button href="#" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+													</form>
 												</div>
 											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
+
+										{% endfor %}
 										<!-- /product -->
 									</div>
 									<div id="slick-nav-2" class="products-slick-nav"></div>

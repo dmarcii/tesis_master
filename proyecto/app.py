@@ -32,6 +32,17 @@ class main(ListView):
         context = super(main, self).get_context_data(**kwargs)
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
 
+        reputaciones = []
+
+        list_top = productos.objects.all().order_by('-vendidos')[:10]
+
+        for i in list_top:
+            reputaciones.append(reputacion(i, opc='no')['promedio'])
+
+        top_vendidos = list(zip(list_top, reputaciones))
+
+        context['top_sell'] = top_vendidos
+
         return context
 
 class pruebas_producto(LoginRequiredMixin, ListView):

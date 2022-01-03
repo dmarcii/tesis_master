@@ -49,7 +49,8 @@ def form_sell(request):
                                      stock=request.POST.get('stock'),
                                      vendedor=User.objects.get(username=request.user),
                                      descripccion=request.POST.get('descripccion'),
-                                     detalles=request.POST.get('detalles'))
+                                     detalles=request.POST.get('detalles'),
+                                     vendidos=0)
 
             return redirect('/')
 
@@ -138,6 +139,7 @@ def buy(request, id):
             obj_qr.crear_nuevo_qr(str(hsh), ("http://127.0.0.1:8000/factura/"+str(hsh)), str(request.user))
 
             for i in context['car']:
+
                 ventas.objects.create(comprador=request.user,
                                        cantidad=i[1].cantidad,
                                        producto_id=i[0].id,
@@ -146,6 +148,9 @@ def buy(request, id):
                                        sub_total=context['total'],
                                        iva=context['iva'],
                                        total=context['totaliva'])
+                prv = i[0]
+                prv.vendidos = int(prv.vendidos) + i[1].cantidad
+                prv.save()
 
             estados_productos.objects.create(comprador=request.user,
                                    code_t = hash_t,
@@ -154,6 +159,10 @@ def buy(request, id):
                                    verficacion=False)
 
             ordenes.objects.filter(comprador=request.user).delete()
+
+
+
+            #productos.objects.create(comprador=self.request.user)
 
             return redirect('/factura/'+hsh)
 
@@ -243,6 +252,22 @@ def pruebas(request):
     #response.set_cookie('mikuki', 'hola mundo')
     #print(request.COOKIES)
     #return response
+
+    '''p1 = Publication(title='The Python Journal')
+    p1.save()
+    p2 = Publication(title='Science News')
+    p2.save()
+    p3 = Publication(title='Science Weekly')
+    p3.save()'''
+
+    #a1 = Article(headline='Django holaaa')
+    #a1.save()
+    #a = Article.objects.all()
+    b = Publication.objects.all()
+    #a[0].publications.add(b[1])
+    #print(a[0].publications.all())
+    #print(a[1].publications.all())
+    #print(a)
 
     if request.is_ajax():
         print('a')

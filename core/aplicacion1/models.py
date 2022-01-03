@@ -12,6 +12,7 @@ class productos(models.Model):
     vendedor = models.ForeignKey(User, on_delete=models.CASCADE)
     descripccion = models.CharField(max_length=200,  default='no')
     detalles = models.CharField(max_length=200,  default='no')
+    vendidos = models.IntegerField(default=0)
 
     class Meta:
         verbose_name='producto'
