@@ -8,7 +8,27 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from datetime import datetime
 from django.contrib.auth.models import User
+from collections import Counter
+from django.views import View
+from django.views.generic import FormView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
+from django.http import HttpResponseRedirect
 import os
+
+class LoginFormView(FormView):
+    form_class = AuthenticationForm
+    template_name = 'login.html'
+    success_url = '/'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(self.success_url)
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return HttpResponseRedirect(self.success_url)
 
 class main(ListView):
     model = productos
@@ -19,18 +39,29 @@ class main(ListView):
 
     def get_queryset(self, **kwargs):
 
-        if self.request.POST:
-            date_insert = self.request.POST.get('search')
-            return productos.objects.filter(nombre__icontains=date_insert)
-        else:
-            return productos.objects.all()
+        reputaciones = []
+
+        for i in productos.objects.all():
+            reputaciones.append(reputacion(i, opc='no')['promedio'])
+
+        return list(zip(productos.objects.all(), reputaciones))
 
     def get_context_data(self, **kwargs):
-
         context = super(main, self).get_context_data(**kwargs)
         context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
-        return context
 
+        reputaciones = []
+
+        list_top = productos.objects.all().order_by('-vendidos')[:10]
+
+        for i in list_top:
+            reputaciones.append(reputacion(i, opc='no')['promedio'])
+
+        top_vendidos = list(zip(list_top, reputaciones))
+
+        context['top_sell'] = top_vendidos
+
+        return context
 
 class pruebas_producto(LoginRequiredMixin, ListView):
     login_url = '/login/'
@@ -41,12 +72,6 @@ class pruebas_producto(LoginRequiredMixin, ListView):
 
         id = self.kwargs['id']
         producto = productos.objects.filter(id=id).first()
-
-
-        lista_facturas = mensajes.objects.filter(producto=producto).values_list('rate', flat=True)
-        lista_facturas = list(dict.fromkeys(lista_facturas))
-        print(lista_facturas)
-
         return mensajes.objects.filter(producto=producto)
 
     def get_context_data(self, **kwargs):
@@ -64,10 +89,58 @@ class pruebas_producto(LoginRequiredMixin, ListView):
             'C:/Users/danie/OneDrive/Escritorio/tesis/tesis_master/static/imagenes/perfiles/' + str(
                 context['seller']) + '/' + str(producto.nombre))
 
+        c = reputacion(producto)
+
+        context.update(c)
         return context
 
+<<<<<<< HEAD
 
 
+=======
+def reputacion(producto, opc='todo'):
+
+    lista_facturas = mensajes.objects.filter(producto=producto).values_list('rate', flat=True)
+    a = dict(Counter(lista_facturas))
+
+    cont1 = 0
+
+    c = {}
+
+    #print(list(map(int, lista_facturas)))
+
+    for i in a:
+        cont1 += (a[i]) * int(i)
+
+    if len(lista_facturas) == 0:
+        c['promedio'] = 0
+    else:
+        c['promedio'] = round(cont1 / len(lista_facturas), 2)
+
+
+    if opc == 'todo':
+
+        b = {}
+
+        for i in a:
+            b[i] = int((a[i] / len(lista_facturas)) * 100)
+
+        for i in ['0', '1', '2', '3', '4', '5']:
+            try:
+                if b[i]:
+                    pass
+            except:
+                b[i] = 0
+
+        nombres = ['estrella0', 'estrella1', 'estrella2', 'estrella3', 'estrella4', 'estrella5']
+        for i, j in enumerate(nombres):
+            try:
+                c[j] = [b[str(i)], a[str(i)]]
+            except:
+                c[j] = [b[str(i)], 0]
+
+    return c
+>>>>>>> 83449bfae0df6363d3522791ffabb0126e696062
 
 def register(request):
 
@@ -111,3 +184,4 @@ def addcar(request, id):
                            cantidad=cantidad,
                            producto_id=id)
     return redirect('/car')
+

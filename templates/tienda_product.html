@@ -82,14 +82,15 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form action="/" method="POST">
-									{% csrf_token %}
+								<form action="/busquedad/" method="GET">
 									<!--<select class="input-select">
 										<option value="0">All Categories</option>
 										<option value="1">Category 01</option>
 										<option value="1">Category 02</option>
 									</select>-->
-									<input class="input" name = "search" placeholder="Buscar">
+									<input type="hidden" value="0" name="minimo" name="supporttype" />
+									<input type="hidden" value="ind" name="maximo" name="supporttype" />
+									<input class="input", id="busquedad" name = "busquedad" placeholder="Buscar">
 									<button class="search-btn" type="submit">Search</button>
 								</form>
 							</div>
@@ -231,34 +232,63 @@
 							<h2 class="product-name">{{name}}</h2>
 							<div>
 								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
+									{% if promedio >= 0 and promedio < 1 %}
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+									{% endif %}
+
+									{% if promedio >= 1 and promedio < 2 %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+									{% endif %}
+
+									{% if promedio >= 2 and promedio < 3 %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+									{% endif %}
+
+									{% if promedio >= 3 and promedio < 4 %}
+
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+									{% endif %}
+
+									{% if promedio >= 4 and promedio < 5 %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+									{% endif %}
+
+									{% if promedio >= 5 %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+									{% endif %}
 								</div>
-								<a class="review-link" href="#">10 Review(s) | Add your review</a>
+
 							</div>
 							<div>
 								<h3 class="product-price">${{pr.precio}} <del class="product-old-price">${{pr.precio}}</del></h3>
 								<span class="product-available">In Stock</span>
 							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+							<p>{{pr.descripccion}}</p>
 
-							<div class="product-options">
-								<label>
-									Size
-									<select class="input-select">
-										<option value="0">X</option>
-									</select>
-								</label>
-								<label>
-									Color
-									<select class="input-select">
-										<option value="0">Red</option>
-									</select>
-								</label>
-							</div>
 							<form action="/addtocar/{{pr.id}}" method="POST">
 								{% csrf_token %}
 								<div class="add-to-cart">
@@ -276,11 +306,10 @@
 
 							<ul class="product-btns">
 								<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
 							</ul>
 
 							<ul class="product-links">
-								<li>Category:</li>
+								<li>Categoria:</li>
 								<li><a href="#">{{pr.seccion}}</a></li>
 							 <!--	<li><a href="#">Accessories</a></li>-->
 							</ul>
@@ -314,7 +343,7 @@
 								<div id="tab1" class="tab-pane fade in active">
 									<div class="row">
 										<div class="col-md-12">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+											<p>{{pr.descripccion}}</p>
 										</div>
 									</div>
 								</div>
@@ -324,7 +353,7 @@
 								<div id="tab2" class="tab-pane fade in">
 									<div class="row">
 										<div class="col-md-12">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+											<p>{{pr.detalles}}</p>
 										</div>
 									</div>
 								</div>
@@ -337,18 +366,65 @@
 										<div class="col-md-3">
 											<div id="rating">
 												<div class="rating-avg">
-													<span>4.5</span>
+													<span>{{promedio}}</span>
 													<div class="rating-stars">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o"></i>
+
+
+														{% if promedio >= 0 and promedio < 1 %}
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 1 and promedio < 2 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 2 and promedio < 3 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 3 and promedio < 4 %}
+
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 4 and promedio < 5 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+														{% endif %}
+
+														{% if promedio >= 5 %}
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														{% endif %}
+
 													</div>
 												</div>
 												<ul class="rating">
 													<li>
 														<div class="rating-stars">
+
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
@@ -356,9 +432,9 @@
 															<i class="fa fa-star"></i>
 														</div>
 														<div class="rating-progress">
-															<div style="width: 80%;"></div>
+															<div style="width: {{estrella5.0}}%;"></div>
 														</div>
-														<span class="sum">3</span>
+														<span class="sum">{{estrella5.1}}</span>
 													</li>
 													<li>
 														<div class="rating-stars">
@@ -367,11 +443,12 @@
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star-o"></i>
+
 														</div>
 														<div class="rating-progress">
-															<div style="width: 60%;"></div>
+															<div style="width: {{estrella4.0}}%;"></div>
 														</div>
-														<span class="sum">2</span>
+														<a class="sum">{{estrella4.1}}</a>
 													</li>
 													<li>
 														<div class="rating-stars">
@@ -382,9 +459,9 @@
 															<i class="fa fa-star-o"></i>
 														</div>
 														<div class="rating-progress">
-															<div></div>
+															<div style="width: {{estrella3.0}}%;"></div>
 														</div>
-														<span class="sum">0</span>
+														<span class="sum">{{estrella3.1}}</span>
 													</li>
 													<li>
 														<div class="rating-stars">
@@ -395,9 +472,9 @@
 															<i class="fa fa-star-o"></i>
 														</div>
 														<div class="rating-progress">
-															<div></div>
+															<div style="width: {{estrella2.0}}%;"></div>
 														</div>
-														<span class="sum">0</span>
+														<span class="sum">{{estrella2.1}}</span>
 													</li>
 													<li>
 														<div class="rating-stars">
@@ -408,9 +485,9 @@
 															<i class="fa fa-star-o"></i>
 														</div>
 														<div class="rating-progress">
-															<div></div>
+															<div style="width: {{estrella1.0}}%;"></div>
 														</div>
-														<span class="sum">0</span>
+														<span class="sum">{{estrella1.1}}</span>
 													</li>
 												</ul>
 											</div>
@@ -504,7 +581,7 @@
 										<!-- Review Form -->
 										<div class="col-md-3">
 											<div id="review-form">
-												<form class="review-form" action="/pruebaaas/{{id_producto}}" method="POST">
+												<form class="review-form" action="/comentar/{{id_producto}}" method="POST">
 													{% csrf_token %}
 													<textarea class="input" name = "coment" style="min-height:250px" placeholder="Your Review"></textarea>
 													<div class="input-rating">
@@ -536,144 +613,6 @@
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
-
-		<!-- Section -->
-		<div class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-
-					<div class="col-md-12">
-						<div class="section-title text-center">
-							<h3 class="title">Related Products</h3>
-						</div>
-					</div>
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="{% static 'tienda/img/product01.png' %}" alt="">
-								<div class="product-label">
-									<span class="sale">-30%</span>
-								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="{% static 'tienda/img/product02.png' %}" alt="">
-								<div class="product-label">
-									<span class="new">NEW</span>
-								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="{% static 'tienda/img/product03.png' %}" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="{% static 'tienda/img/product04.png' %}" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /Section -->
 
 		<!-- NEWSLETTER -->
 		<div id="newsletter" class="section">

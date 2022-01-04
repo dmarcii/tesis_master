@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
 from core.aplicacion1.models import *
 from core.aplicacion1.formularioVender import formventa
-from core.aplicacion1.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms.models import model_to_dict
@@ -13,6 +13,13 @@ from core.aplicacion1.codigo_qr import QR_CODE
 from django.contrib.auth.models import User
 from proyecto.settings import codigo_seguridad_qe
 import random
+from proyecto.app import *
+from core.cede_app.models import *
+from datetime import datetime
+from django.core.paginator import Paginator
+from django.views.generic import FormView
+
+#from proyecto.formUser import *
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -43,7 +50,10 @@ def form_sell(request):
                                      precio=request.POST.get('precio'),
                                      imagen=pr[0][1],
                                      stock=request.POST.get('stock'),
-                                     vendedor=User.objects.get(username=request.user))
+                                     vendedor=User.objects.get(username=request.user),
+                                     descripccion=request.POST.get('descripccion'),
+                                     detalles=request.POST.get('detalles'),
+                                     vendidos=0)
 
             return redirect('/')
 
@@ -62,7 +72,6 @@ def upimage(pr, user, nombre_producto):
     fs = FileSystemStorage()
     for i in pr:
         fs.save(rutaUser + i[1], i[0])
-
 
 def obtener_datos_carro(usuario):
     context = {}
@@ -112,7 +121,6 @@ def eliminarCar(request, id):
     ordenes.objects.filter(comprador=request.user, id=id).delete()
     return redirect('/car')
 
-
 @login_required(login_url='/login')
 def buy(request, id):
 
@@ -134,6 +142,7 @@ def buy(request, id):
             obj_qr.crear_nuevo_qr(str(hsh), ("http://127.0.0.1:8000/factura/"+str(hsh)), str(request.user))
 
             for i in context['car']:
+
                 ventas.objects.create(comprador=request.user,
                                        cantidad=i[1].cantidad,
                                        producto_id=i[0].id,
@@ -142,13 +151,25 @@ def buy(request, id):
                                        sub_total=context['total'],
                                        iva=context['iva'],
                                        total=context['totaliva'])
+                prv = i[0]
+                prv.vendidos = int(prv.vendidos) + i[1].cantidad
+                prv.save()
+
+            estados_productos.objects.create(comprador=request.user,
+                                   code_t = hash_t,
+                                   estado=0,
+                                   detalles='No verificado',
+                                   verficacion=False)
 
             ordenes.objects.filter(comprador=request.user).delete()
+
+
+
+            #productos.objects.create(comprador=self.request.user)
 
             return redirect('/factura/'+hsh)
 
     return redirect('/car')
-
 
 @login_required(login_url='/login')
 def show_invoice(request, id):
@@ -173,8 +194,19 @@ def show_invoice(request, id):
     context['iva'] = a[0].iva
     context['totaliva'] = a[0].total
 
-    return render(request, 'invoice.html', context)
+    estado_obj = estados_productos.objects.get(code_t=a[0].code_t)
 
+    valoraciones = ['Sin valoracion', 'Muy mal estado', 'En mal estado', 'Con detalles', 'En buen estado con pocos detalles', 'Perfecto estado']
+
+    context['valoracion'] = valoraciones[estado_obj.estado]
+    context['detalles'] = estado_obj.detalles
+
+    if estado_obj.verficacion:
+        context['verficacion'] = 'Verificado'
+    else:
+        context['verficacion'] = 'No verificado'
+
+    return render(request, 'invoice.html', context)
 
 def _get_hashed_password(password):
     return pbkdf2_sha256.encrypt(password, rounds=10, salt_size=10)
@@ -202,17 +234,176 @@ class list_all_invoices(LoginRequiredMixin, ListView):
 
         return context
 
-#@login_required(login_url='/login')
-def pruebas(request,id):
+@login_required(login_url='/login')
+def comentar(request,id):
 
     context = obtener_datos_carro(request.user)
     context['c_car'] = len(ordenes.objects.filter(comprador=request.user))
-    #request.POST.get('username')
-    #print(request.POST)
 
     mensajes.objects.create(comprador=request.user,
                           producto=productos.objects.get(id=id),
                           msg=request.POST.get('coment'),
                           rate=request.POST.get('rating'))
 
+    return redirect('/producto/'+id)
+
+
+
+'''class Formprueba(FormView):
+    form_class = CategoryForm
+    template_name = 'pruebaaas.html'
+    success_url = '/pruebaaas3/'
+
+    def form_valid(self, form):
+        print(form.is_valid())
+        print(form)
+        form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print(form.is_valid())
+        print(form)
+        return super().form_invalid(form)'''
+
+
+@login_required(login_url='/login')
+def pruebas(request):
+    context = {}
+    #print(request.COOKIES)
+    #response = render(request, 'pruebaaas.html', context)
+    #response.set_cookie('mikuki', 'hola mundo')
+    #print(request.COOKIES)
+    #return response
+
+    '''p1 = Publication(title='The Python Journal')
+    p1.save()
+    p2 = Publication(title='Science News')
+    p2.save()
+    p3 = Publication(title='Science Weekly')
+    p3.save()'''
+
+    #a1 = Article(headline='Django holaaa')
+    #a1.save()
+    #a = Article.objects.all()
+    b = Publication.objects.all()
+    #a[0].publications.add(b[1])
+    #print(a[0].publications.all())
+    #print(a[1].publications.all())
+    #print(a)
+
+    if request.is_ajax():
+        print('a')
+
+    now = datetime.now()
+    context['hora'] = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    #return render(request, 'editar_productos_hija.html', context)
     return render(request, 'pruebaaas.html', context)
+
+@login_required(login_url='/login')
+def pruebas2(request):
+    context = {}
+    pr = productos.objects.all()
+    context['productos'] = pr
+    #now = datetime.now()
+    #context['hora'] = now.strftime("%Y-%m-%d %H:%M:%S")
+    #context['paper'] = productos.objects.all()[0]
+    #print(JsonResponse(context, safe=True))
+
+    return render(request, 'pruebajax.html', context)
+
+    #return JsonResponse(context, safe=False)
+
+
+class list_store(ListView):
+
+    template_name = 'tienda_store.html'
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if request.method == 'GET':
+            self.date_insert = self.request.GET.get('busquedad')
+            self.minimo = self.request.GET.get('minimo')
+            self.maximo = self.request.GET.get('maximo')
+
+            if self.maximo == 'ind':
+                self.obj = productos.objects.filter(nombre__icontains=self.date_insert,
+                                                    precio__gte=self.minimo,)
+            else:
+                self.obj = productos.objects.filter(nombre__icontains=self.date_insert,
+                                               precio__lte=self.maximo,
+                                               precio__gte=self.minimo,)
+
+            self.page = self.request.GET.get('page')
+            return self.get(request, *args, **kwargs)
+
+        elif request.method == 'POST':
+            return self.get(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+
+        p = Paginator(self.obj, 3)
+
+        if self.page == None:
+            self.page = 1
+
+        self.paginacion = p.get_page(self.page)
+
+        obj = p.page(self.page).object_list
+
+        reputaciones = []
+
+        for i in obj:
+            reputaciones.append(reputacion(i, opc='no')['promedio'])
+
+        return list(zip(obj, reputaciones))
+
+        '''try:
+        except Exception as e:
+            pass'''
+
+    def get_context_data(self, **kwargs):
+
+        context = super(list_store, self).get_context_data(**kwargs)
+
+        context['paginas'] = self.paginacion
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+        context['max'] = self.maximo
+        context['min'] = self.minimo
+        context['search'] = self.date_insert
+        return context
+
+
+class edit(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    template_name = 'editar_productos_hija.html'
+
+    def get_queryset(self, **kwargs):
+
+        return productos.objects.filter(vendedor=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+
+        return context
+
+
+
+class edit(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    template_name = 'editar_productos_hija.html'
+
+    def get_queryset(self, **kwargs):
+        return productos.objects.filter(vendedor=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['c_car'] = len(ordenes.objects.filter(comprador=self.request.user))
+
+        return context
+
+@login_required(login_url='/login')
+def eliminarProducto(request, id):
+    productos.objects.filter(vendedor=request.user, id=id).delete()
+    return redirect('/editar')

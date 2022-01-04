@@ -7,9 +7,9 @@ import shutil
 # Register your models here.
 
 class productos_display(admin.ModelAdmin):
-    list_display = ('nombre', 'seccion', 'precio', 'imagen', 'stock', 'vendedor')
-    search_fields = ('nombre', 'seccion', 'precio', 'imagen', 'stock', 'vendedor')
-    list_filter = ('nombre', 'seccion', 'precio', 'imagen', 'stock', 'vendedor')
+    list_display = ('nombre', 'seccion', 'precio', 'imagen', 'stock', 'vendedor', 'vendidos')
+    search_fields = ('nombre', 'seccion', 'precio', 'stock', 'vendedor', 'vendidos')
+    list_filter = ('nombre', 'seccion', 'precio', 'stock', 'vendedor', 'vendidos')
 
 class ordenes_display(admin.ModelAdmin):
     list_display = ('comprador', 'cantidad', 'producto', 'fecha')
@@ -29,11 +29,9 @@ class perfiles_display(admin.ModelAdmin):
 
 
 class ventas_display(admin.ModelAdmin):
-    list_display = ('comprador', 'cantidad', 'producto', 'fecha', 'code_hash', 'code_t', 'sub_total', 'iva', 'total')
-    search_fields = ('comprador', 'cantidad', 'producto', 'fecha', 'code_hash', 'code_t', 'sub_total', 'iva', 'total')
-    list_filter = ('comprador', 'cantidad', 'producto', 'fecha', 'code_hash', 'code_t', 'sub_total', 'iva', 'total')
-
-
+    list_display = ('comprador', 'cantidad', 'producto', 'fecha', 'sub_total', 'iva', 'total')
+    search_fields = ('comprador', 'cantidad', 'producto', 'fecha', 'sub_total', 'iva', 'total')
+    list_filter = ('comprador', 'cantidad', 'producto', 'fecha', 'sub_total', 'iva', 'total')
 
 def eliminar_perfil(modeladmin, request, queryset):
 

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 import datetime
+from core.aplicacion1.models import *
 
 class UserRegisterFrom(UserCreationForm):
     username = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control', "placeholder": "", "aria-label": "First name", 'onkeyup':'feedback_form_control()'}))
@@ -24,3 +25,11 @@ class UserRegisterFrom(UserCreationForm):
         model = User
         fields = ['username', 'nombre', 'sexo', 'apellido', 'email', 'edad', 'password1', 'password2']
         #help_texts = {k: "" for k in fields}
+
+
+
+'''class CategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = perfil_datos
+        fields = '__all__'''

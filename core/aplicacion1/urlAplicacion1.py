@@ -10,6 +10,11 @@ urlpatterns = [
     path('car/buy/<str:id>', buy, name='comprar'),
     path('factura/<str:id>', show_invoice, name='factura'),
     path('facturas/', list_all_invoices.as_view(), name='facturas'),
-    path('pruebaaas/<str:id>', pruebas, name='prueba'),
-
+    path('comentar/<str:id>', comentar, name='comentar'),
+    path('busquedad/', list_store.as_view(), name='prueba'),
+    path('editar/', edit.as_view(), name='prueba'),
+    path('del/<int:id>', eliminarProducto, name='eliminar'),
+    path('pruebaaas/', pruebas),
+    path('pruebaaas2/', pruebas2),
+    #path('pruebaaas3/', Formprueba.as_view()),
 ]
