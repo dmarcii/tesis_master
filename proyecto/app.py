@@ -16,8 +16,6 @@ from django.contrib.auth import login
 from django.http import HttpResponseRedirect
 import os
 
-##
-
 class LoginFormView(FormView):
     form_class = AuthenticationForm
     template_name = 'login.html'
