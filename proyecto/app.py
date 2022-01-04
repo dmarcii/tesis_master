@@ -14,9 +14,7 @@ from django.views.generic import FormView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.http import HttpResponseRedirect
-import os
-
-#
+import os#
 
 class LoginFormView(FormView):
     form_class = AuthenticationForm
