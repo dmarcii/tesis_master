@@ -27,7 +27,7 @@ class LoginFormView(FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        login(self.request, form.get_user())
+        login(self.request, form.get_user()) #
         return HttpResponseRedirect(self.success_url)
 
 class main(ListView):
