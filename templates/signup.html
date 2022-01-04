@@ -2,58 +2,74 @@
 {% load static %}
 
 <div class="container-fluid px-1 py-5 mx-auto">
+  <a class="navbar-brand" href="#">Tiendas M&M</a>
+
+  
   <div class="row d-flex justify-content-center">
     <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-    
       <div class="card">
         <h3 class="text-center mb-4">Regístrate</h3>
 
         <form method="post" class="form-card">
           {% csrf_token %}
 
-          <h4>{{form.username.label}}</h4>
-          {{form.username}}
 
-          <h4>{{form.nombre.label}}</h4>
-          {{form.nombre}}
-
-          <h4>{{form.apellido.label}}</h4>
-          {{form.apellido}}
-
-          <h4>{{form.sexo.label}}</h4>
-          {{form.sexo}}
-
-          <h4>{{form.email.label}}</h4>
-          {{form.email}}
-
-          <h4>{{form.edad.label}}</h4>
-          {{form.edad}}
-
-          <h4>{{form.password1.label}}</h4>
-          {{form.password1}}
-
-          <h4>{{form.password2.label}}</h4>
-          {{form.password2}}
-
-          <h4 class="user">Region</h4>
-
-          <div class="btn-container">
-
-              <link rel="stylesheet" href="{% static 'build/css/countrySelect.css' %}">
-
-              <input name="region" type="text" id="country"/>
-              <input type="hidden" id="country_code" />
-
-              <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-              <script src="{% static 'build/js/countrySelect.min.js' %}"></script>
-              <script>
-                $("#country").countrySelect();
-              </script>
-
+          <div class="row">
+            <div class="col">
+              <label for="form-control" class="form-label">Seudónimo</label>
+              {{form.username}}
+            </div>
+            <div class="col">
+              <label for="form-control" class="form-label">Correo Electrónico</label>
+              {{form.email}}
+            </div>
           </div>
 
-          <div class="btn-container">
-            <button type="submit" id="submit" class="btn-block">Registrarse</button>
+          <div class="row">
+            <div class="col">
+              <label for="form-control" class="form-label">Primer Nombre</label>
+              {{form.nombre}}
+            </div>
+            <div class="col">
+              <label for="form-control" class="form-label">Segundo Nombre</label>
+              {{form.apellido}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label for="form-control" class="form-label">Contraseña</label>
+              {{form.password1}}
+            </div>
+            <div class="col">
+              <label for="form-control" class="form-label">Repetir Contraseña</label>
+              {{form.password2}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <h4 class = "form-label">Información Adicional</h4>   
+          <link rel="stylesheet" href="{% static 'build/css/countrySelect.css' %}">
+          <input class="form-control" name="region" type="text" id="country"/>
+          <input type="hidden" id="country_code" />
+          <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+          <script src="{% static 'build/js/countrySelect.min.js' %}"></script>
+          <script>$("#country").countrySelect();</script>
+          {{form.sexo}}
+        </div>
+
+        <div class="col">
+          <label for="form-control" class="form-label">Edad</label>
+          {{form.edad}}
+        </div>
+
+      </div>
+         <br>
+      <div class="btn-container">
+        <button type="submit" id="submit" class="btn-block">Registrarse</button>
+      </div>
+
           </div>
 
         </form>
@@ -61,26 +77,47 @@
   </div>
 </div>
 
+
+
 <style>
+
+  .form-label {
+    margin-top: 10px;
+  }
+
   header {
-   background-color: #00bcd4;
+   background-color: #ee0290;
    padding: 20px 10%;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@600&display=swap');
+.navbar-brand {
+  font-family: 'Permanent Marker', cursive;
+  font-style: italic;
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 40px;
+  display: inline-block;
+  margin: 10px 20px 10px 40px;
+  color: #fff;
+}
+
   body {
     color: #000;
     overflow-x: hidden;
     height: 100%;
-    background-color: #00bcd4;
+    background-color:  #ee0290;
     background-size: 100% 100%;
   }
 
   .btn-block {
-    background-color: #00bcd4;
+    background-color: #6002EE;
     color: #fff;
   }
 
   .card {
-    margin-top: -40px;
+    margin-top: 60px;
     padding: 30px 40px;
     border-radius: 1%;
     border: none !important;
@@ -89,7 +126,7 @@
   }
 
   .blue-text {
-    color: #00bcd4;
+    color: #6002EE;
   }
 
 
@@ -111,7 +148,7 @@
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 1px solid #00bcd4;
+    border: 1px solid  #6002EE;
     outline-width: 0;
     font-weight: 400;
   }
@@ -136,18 +173,23 @@
   }
 
 .card label {
-text-align: left;
+text-align: top;
 }
 
 .card h4 {
 font-size: 16px;
+margin-bottom: 13px;
 }
 
 .btn-container {
 display: block;
 }
 
+.user {
 
+  height: 40px;
+
+}
 
 </style>
 

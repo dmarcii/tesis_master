@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'base_de_datos_django',
         'USER': 'root',
-        'PASSWORD': '82134',
+        'PASSWORD': 'Morfologia123',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -145,9 +145,3 @@ LOGIN_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_USE_TLS=True
-EMAIL_PORT=587
-EMAIL_HOST_USER='morochoking@gmail.com'
-EMAIL_HOST_PASSWORD='13236985'

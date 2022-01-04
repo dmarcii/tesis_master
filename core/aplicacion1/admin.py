@@ -38,7 +38,7 @@ class ventas_display(admin.ModelAdmin):
 def eliminar_perfil(modeladmin, request, queryset):
 
     for i in queryset:
-        root = "C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles/"+str(i.username)
+        root = "C:/Users/danie/OneDrive/Escritorio/tesis/tesis_master/static/imagenes/perfiles/"+str(i.username)
         if os.path.exists(root):
             shutil.rmtree(root)
 
@@ -46,6 +46,7 @@ def eliminar_perfil(modeladmin, request, queryset):
 
 class perfil_delete(OriginalUserAdmin):
     actions = [eliminar_perfil]
+
 
 
 admin.site.unregister(User)

@@ -53,7 +53,7 @@ def form_sell(request):
 
 def upimage(pr, user, nombre_producto):
 
-    ruta = 'C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles'
+    ruta = 'C:/Users/danie/OneDrive/Escritorio/tesis/tesis_master/static/imagenes/perfiles'
     rutaUser = ruta + '/' + user + '/' + nombre_producto + '/'
 
     if not os.path.exists(rutaUser):

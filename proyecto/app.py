@@ -59,12 +59,15 @@ class pruebas_producto(LoginRequiredMixin, ListView):
         context['c_reviews'] = len(mensajes.objects.filter(producto=producto))
         context['id_producto'] = producto.id
         context['pr'] = producto
-        context['name'] = str(producto.nombre)
+        context['name'] = str(producto.nombre) 
         context['fotos'] = os.listdir(
-            'C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/perfiles/' + str(
+            'C:/Users/danie/OneDrive/Escritorio/tesis/tesis_master/static/imagenes/perfiles/' + str(
                 context['seller']) + '/' + str(producto.nombre))
 
         return context
+
+
+
 
 def register(request):
 

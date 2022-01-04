@@ -6,7 +6,7 @@ import os
 class QR_CODE:
 
     def __init__(self):
-        self.ruta = 'C:/Users/Rosangel/PycharmProjects/ejemploDjango/proyecto/static/imagenes/QR/'
+        self.ruta = 'C:/Users/danie/OneDrive/Escritorio/tesis/tesis_master/static/imagenes/QR/'
 
     def crear_nuevo_qr(self, producto: str, link: str, user: str) -> str:
         qr = qrcode.QRCode(
