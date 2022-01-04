@@ -341,8 +341,7 @@ input[type="password"]:placeholder {
 
 </style>
 
-
-
+{% load widget_tweaks %}
 
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark ">
@@ -353,7 +352,7 @@ input[type="password"]:placeholder {
     </div>
   </nav>
 </header>
-  
+
   <body>
   <br />
   <div class="wrapper fadeInDown">
@@ -368,7 +367,8 @@ input[type="password"]:placeholder {
       <form method="post" class="form-card">
         {% csrf_token %}
 
-        {{ form.as_p }}
+        {{ form.username|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Ingrese su usuario' }}
+        {{ form.password|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Ingrese su contraseña' }}
 
         <button type="submit" id="submit" class="login__btn ">Entrar</button>
 

@@ -12,10 +12,20 @@
 <button class="foo", id="btnTest"> cambiar </button>
 <a id="aaa">{{hora}}</a>
 
+<form method="post" action="/pruebaaas3/">
+    {% csrf_token %}
+
+    {{form}}
+    <button type="submit" id="submit" class="btn-block">Registrarse</button>
+
+</form>
 
 <div id="aaa1">
     <a id="aaa11">{{hora}}</a>
 </div>
+
+
+
 
 
 </body>

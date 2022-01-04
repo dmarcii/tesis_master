@@ -17,6 +17,9 @@ from proyecto.app import *
 from core.cede_app.models import *
 from datetime import datetime
 from django.core.paginator import Paginator
+from django.views.generic import FormView
+
+#from proyecto.formUser import *
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -243,6 +246,25 @@ def comentar(request,id):
                           rate=request.POST.get('rating'))
 
     return redirect('/producto/'+id)
+
+
+
+'''class Formprueba(FormView):
+    form_class = CategoryForm
+    template_name = 'pruebaaas.html'
+    success_url = '/pruebaaas3/'
+
+    def form_valid(self, form):
+        print(form.is_valid())
+        print(form)
+        form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print(form.is_valid())
+        print(form)
+        return super().form_invalid(form)'''
+
 
 @login_required(login_url='/login')
 def pruebas(request):
